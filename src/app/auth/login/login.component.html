@@ -1,0 +1,21 @@
+  <form #f1="ngForm" (ngSubmit)="login()">
+
+    <div class="form-group">
+      <label for="email">Email address</label>
+      
+      <input type="email" required [(ngModel)]="loginForm.loginId" class="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+      <small id="emailHelp" class="form-text text-muted">Your email with finance</small>
+      
+    </div>
+    <div class="form-group">
+      <label for="pwd">Password</label>
+      <input type="password" required [(ngModel)]="loginForm.password" class="form-control" name="pwd" id="pwd" placeholder="Password">
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Login</button>
+    <br>
+    <div class="alert alert-danger fade show" style="margin-top:1rem" role="alert" *ngIf="authError">
+      {{authError}}
+    </div>
+
+  </form>

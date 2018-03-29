@@ -1,0 +1,10 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><button type="button" [routerLink]="['/portfolio/']" routerLinkActive="active" class="btn btn-link">Portfolios</button></li>    
+  </ol>
+</nav>
+<div class="list-group">
+  <button type="button" 
+    *ngFor="let folio of portfolioList" class="list-group-item list-group-item-action"
+    [routerLink]="['/portfolio',folio]">{{folio}}</button>
+</div>

@@ -1,0 +1,18 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><button type="button" [routerLink]="['/portfolio/']" routerLinkActive="active" class="btn btn-link">Portfolios</button></li>
+    <li class="breadcrumb-item"><button type="button" [routerLink]="['/portfolio/',portfolioName]" routerLinkActive="active" class="btn btn-link">{{portfolioName}}</button></li>
+    
+  </ol>
+</nav>
+
+<h4>Portfolio : {{portfolioName}}</h4>
+
+<button type="button" routerLink="perf" routerLinkActive="active" class="btn btn-outline-primary">Performance</button>
+<button type="button" routerLink="txns" routerLinkActive="active" class="btn btn-outline-secondary">Transactions</button>
+<button type="button" routerLink="newtxn" routerLinkActive="active" class="btn btn-outline-info">Add New Transaction</button>
+<div class="mt-2 mb-2">
+
+</div>
+<page-title></page-title>
+<router-outlet></router-outlet>

@@ -1,0 +1,22 @@
+<ng-container *ngIf="user$ | async as user;else loading">
+
+
+  <ng-container *ngIf="user.isLoggedIn; else loggedOutBlock">
+    <span class="navbar-text float-right">
+      {{user.email}}
+      |<button type="button" (click)="logout()" class="btn btn-link">Logout</button>
+    </span>
+  </ng-container>
+
+  <ng-template #loggedOutBlock>
+
+    <span class="navbar-text float-right">
+      <button [routerLink]="['login']" type="button" class="btn btn-link">Login</button>
+    </span>
+  </ng-template>
+</ng-container>
+<ng-template #loading>
+    <span class="navbar-text float-right">
+          loading
+    </span>
+</ng-template>

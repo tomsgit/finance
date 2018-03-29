@@ -1,0 +1,61 @@
+<page-title [title]="title"></page-title>
+<form #f1="ngForm" (ngSubmit)="saveTransaction()">
+  <div class="btn-group btn-group-toggle" ngbRadioGroup name="txnType" [(ngModel)]="txn.type">
+    <label ngbButtonLabel class="btn-info">
+      <input ngbButton type="radio" [value]="TxnType.BUY"> BUY
+    </label>    
+    <label ngbButtonLabel class="btn-info">
+      <input ngbButton type="radio" [value]="TxnType.SELL"> SELL
+    </label>
+  </div>
+
+  <div class="btn-group btn-group-toggle" ngbRadioGroup name="exchange" [(ngModel)]="txn.exchange">
+    <label ngbButtonLabel class="btn-secondary">
+      <input ngbButton type="radio" [value]="Exchange.NSE"> NSE
+    </label>    
+    <label ngbButtonLabel class="btn-secondary">
+      <input ngbButton type="radio" [value]="Exchange.BSE"> BSE
+    </label>
+  </div>
+
+  <div class="btn-group btn-group-toggle" ngbRadioGroup name="broker" [(ngModel)]="txn.broker">
+    <label ngbButtonLabel class="btn-light">
+      <input ngbButton type="radio" [value]="Broker.ZERODHA"> ZERODHA
+    </label>    
+    <label ngbButtonLabel class="btn-light">
+      <input ngbButton type="radio" [value]="Broker.ICICIDirect"> ICICI Direct
+    </label>
+  </div>
+  <hr>
+  <div class="form-group">
+      <label for="type">Shares</label>    
+      <input type="number" required [(ngModel)]="txn.shares" class="form-control" name="shares" id="shares" placeholder="Number of shares">    
+  </div>
+  <div class="form-group">
+      <label for="type">Price</label>    
+      <input type="number" required [(ngModel)]="txn.price" class="form-control" name="price" id="price" placeholder="Price per share">    
+  </div>
+  <div class="form-group">
+      <label for="type">Commission</label>    
+      <input type="number" required [(ngModel)]="txn.commission" class="form-control" name="commission" id="commission" placeholder="Total commission">    
+  </div>
+  <div class="form-group">
+    <div class="input-group">
+      <input class="form-control" placeholder="Transaction Date dd-mm-yyyy"
+              name="date" [(ngModel)]="txn.date" ngbDatepicker #d="ngbDatepicker">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+          <img src="https://ng-bootstrap.github.io/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;"/>
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  
+  <button type="submit" class="btn btn-primary">Add</button>
+  <br>
+  {{txn|json}}
+  <div class="alert alert-danger fade show" style="margin-top:1rem" role="alert" *ngIf="authError">
+    {{authError}}
+  </div>
+</form>
