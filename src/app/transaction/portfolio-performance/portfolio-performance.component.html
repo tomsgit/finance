@@ -1,1 +1,35 @@
 <page-title [title]="title"></page-title>
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      
+      <th scope="col">Code</th>
+      <th scope="col">Name</th>
+      <th scope="col">Shares</th>
+      <th scope="col">Cost Value</th>
+      <th scope="col">Avg  Price</th>
+      <th scope="col">Current Price</th>
+      <th scope="col">Current Value</th>
+      <th scope="col">Gain</th>
+      <th scope="col">Gain %</th>
+      <th scope="col">Day Change</th>
+      <th scope="col">Day %</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of folios | async">
+      <th scope="row">{{item.code}}</th>
+      <td>{{item.name}}</td>
+      <td>{{item.shares}}</td>
+      <td>{{item.costValue}}</td>
+      <td>{{item.avgPrice}}</td>
+      <td>{{item.costValue1}}</td>
+      <td>{{item.costValue1}}</td>
+      <td>{{item.costValue1}}</td>
+      <td>{{item.costValue1}}</td>
+      <td>{{item.costValue1}}</td>
+      <td>{{item.costValue1}}</td>
+    </tr>
+    
+  </tbody>
+</table>

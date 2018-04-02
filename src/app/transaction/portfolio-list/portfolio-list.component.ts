@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { PortfolioService } from '../portfolio.service';
+import { Portfolio } from '../portfolio';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-portfolio-list',
@@ -7,12 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PortfolioListComponent implements OnInit {
 
-  portfolioList:string[];
-  constructor() { }
+  portfolioList$:Observable<Portfolio[]>;
+  title:string;
+  constructor(private _portfolioService:PortfolioService) { }
 
   ngOnInit() {
-    this.portfolioList=['equity','watchlist','2018','2017'];
-    //todo fetch from db
+    this.title='Your portfolios';
+    this.portfolioList$ = this._portfolioService.getPortfolioList();
+    
   }
 
 }

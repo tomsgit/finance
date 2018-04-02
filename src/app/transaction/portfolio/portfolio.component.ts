@@ -8,13 +8,12 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class PortfolioComponent implements OnInit {
   
-  portfolioName: string | '';
+
   
   constructor(private route: ActivatedRoute) { }
  
   ngOnInit() {   
-    this.portfolioName = this.route.snapshot.params['folioName'];
-    //to do get portfolio details
+    
   } 
 
 }

@@ -4,6 +4,7 @@ import { AuthService } from '../auth.service';
 
 import { Observable } from 'rxjs/Observable';
 import { User } from '../user';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -13,7 +14,7 @@ import { User } from '../user';
 })
 export class AuthNavBarComponent implements OnInit {
 
-  constructor(private _authService: AuthService) { 
+  constructor(private _authService: AuthService,private _router:Router) { 
     
   }
   private user$:Observable<User>;
@@ -25,6 +26,8 @@ export class AuthNavBarComponent implements OnInit {
   
   logout():void{
     this._authService.logout();
+    this.user$=this._authService.authState();
+    this._router.navigate(['/login']);
   }
 
 }

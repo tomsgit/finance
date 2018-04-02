@@ -3,8 +3,14 @@
     <li class="breadcrumb-item"><button type="button" [routerLink]="['/portfolio/']" routerLinkActive="active" class="btn btn-link">Portfolios</button></li>    
   </ol>
 </nav>
+<page-title [title]="title"></page-title>
 <div class="list-group">
   <button type="button" 
-    *ngFor="let folio of portfolioList" class="list-group-item list-group-item-action"
-    [routerLink]="['/portfolio',folio]">{{folio}}</button>
+    *ngFor="let folio of portfolioList$| async" class="list-group-item list-group-item-action flex-column align-items-start"
+    [routerLink]="['/portfolio',folio.id]">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{{folio.name}}</h5>      
+    </div>
+    <p class="mb-1">{{folio.description}}</p>
+  </button>
 </div>

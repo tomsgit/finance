@@ -18,6 +18,7 @@ import { PortfolioDetailComponent } from './portfolio-detail/portfolio-detail.co
 import { PortfolioPerformanceComponent } from './portfolio-performance/portfolio-performance.component';
 import { PageTitleComponent } from './page-title/page-title.component';
 import { AuthRouteGuardService } from '../auth/auth-route-guard.service';
+import { PortfolioService } from './portfolio.service';
 
 const routes:Routes = [
   {path:'portfolio',
@@ -25,7 +26,7 @@ const routes:Routes = [
     canActivate:[AuthRouteGuardService],
     children:[
       {path:'',component:PortfolioListComponent},
-      {path:':folioName',component:PortfolioDetailComponent,
+      {path:':folioId',component:PortfolioDetailComponent,
         children:[
             {path:'',pathMatch: 'full', redirectTo: 'perf'},
             {path:'perf',component:PortfolioPerformanceComponent},
@@ -57,6 +58,6 @@ const routes:Routes = [
     PortfolioPerformanceComponent,
     PageTitleComponent
   ],
-  providers: [TransactionService]
+  providers: [TransactionService, PortfolioService]
 })
 export class TransactionModule { }

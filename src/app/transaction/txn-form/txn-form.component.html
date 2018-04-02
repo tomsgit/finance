@@ -1,5 +1,5 @@
 <page-title [title]="title"></page-title>
-<form #f1="ngForm" (ngSubmit)="saveTransaction()">
+<form #f1="ngForm" (ngSubmit)="saveTransaction(f1)" novalidate>
   <div class="btn-group btn-group-toggle" ngbRadioGroup name="txnType" [(ngModel)]="txn.type">
     <label ngbButtonLabel class="btn-info">
       <input ngbButton type="radio" [value]="TxnType.BUY"> BUY
@@ -28,6 +28,10 @@
   </div>
   <hr>
   <div class="form-group">
+    <label for="type">Script</label>    
+    <input type="text" required minlength="3" [(ngModel)]="txn.code" class="form-control" name="script" id="script" placeholder="NSE script code">    
+</div>
+  <div class="form-group">
       <label for="type">Shares</label>    
       <input type="number" required [(ngModel)]="txn.shares" class="form-control" name="shares" id="shares" placeholder="Number of shares">    
   </div>
@@ -42,7 +46,7 @@
   <div class="form-group">
     <div class="input-group">
       <input class="form-control" placeholder="Transaction Date dd-mm-yyyy"
-              name="date" [(ngModel)]="txn.date" ngbDatepicker #d="ngbDatepicker">
+              name="date" [(ngModel)]="date" ngbDatepicker #d="ngbDatepicker">
       <div class="input-group-append">
         <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
           <img src="https://ng-bootstrap.github.io/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;"/>
@@ -51,11 +55,19 @@
     </div>
   </div>
   
+  <ng-container *ngIf="saving;else button">
+      Saving...
+  </ng-container>
+  <ng-template #button>
+    <button type="submit" [disabled]="f1.invalid" class="btn" [class.btn-success] ="txn.type===TxnType.BUY" [class.btn-danger] ="txn.type===TxnType.SELL">{{(txn.type===TxnType.BUY)?'Buy':'Sell'}}</button>
+  </ng-template>
   
-  <button type="submit" class="btn btn-primary">Add</button>
   <br>
   {{txn|json}}
-  <div class="alert alert-danger fade show" style="margin-top:1rem" role="alert" *ngIf="authError">
-    {{authError}}
+  <div class="alert alert-danger fade show" style="margin-top:1rem" role="alert" *ngIf="error">
+    {{error}}
+  </div>
+  <div class="alert alert-danger fade show" style="margin-top:1rem" role="alert" *ngIf="f1.invalid && f1.touched">
+    Errors on form!
   </div>
 </form>

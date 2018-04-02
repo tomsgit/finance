@@ -7,16 +7,19 @@ import { TxnType } from './txn-type.enum';
 import { Subscriber } from 'rxjs/Subscriber';
 import { Observer } from 'rxjs/Observer';
 import { AngularFirestore } from 'angularfire2/firestore';
+import { PortfolioService } from './portfolio.service';
+import { DocumentReference } from '@firebase/firestore-types';
 
 @Injectable()
 export class TransactionService {
 
-  constructor(private _fireStore:AngularFirestore) { 
+  deleteTxn(txn:Txn): any {
+    txn.docRef.delete();
+  }
+  
+  constructor(private _fireStore:AngularFirestore, private _portfolioService:PortfolioService ) { 
     
-    this.localTxns=[
-      {id:'',code:'infy',name:'Infosys',shares:10,broker:Broker.ZERODHA,exchange:Exchange.NSE,type:TxnType.BUY,date:new Date(), price:920,commission:6,value:10000},
-      {id:'',code:'hex',name:'Hexaware',shares:20,broker:Broker.ICICIDirect,exchange:Exchange.BSE,type:TxnType.SELL,date:new Date(), price:390,commission:45,value:6000}
-    ];
+    
    
    /*
     this.localTxns=[
@@ -33,6 +36,21 @@ export class TransactionService {
 
     return this._fireStore.collection<Txn>(this.collection_txns).valueChanges();
   }
+  getPorfolioTransactions(porfolioId:string):Observable<Txn[]>{
+    return this._portfolioService.getPortfolioRef(porfolioId)
+                .collection<Txn>(this.collection_txns)
+                .snapshotChanges()
+                .map(actions => {
+                  return actions.map(action => {
+                    let t = action.payload.doc.data() as Txn;
+                    t.id = action.payload.doc.id;
+                    t.docRef = action.payload.doc.ref;
+                    return t;
+                  })
+                });
+    
+  }
+  
   getTransactionsLocal():Observable<Txn[]>{
 
     return Observable.create((observer:Observer<Txn[]>) => {
@@ -40,12 +58,37 @@ export class TransactionService {
       observer.complete();
     });
   }
-  saveTransactions(txn:Txn):void{
+  compute(txn:Txn){
+    
+      console.log('computing value');
+      let val:number=0;
+      if(txn.price && txn.shares){
+          val=txn.price * txn.shares;
+          if(txn.type && txn.commission){
+             if(txn.type as TxnType === TxnType.BUY){
+                  val+=txn.commission;
+             }else{
+                 val-=txn.commission;
+             }    
+          } 
+      }
+      txn.value=val;  
+  }
+  saveTransactions(txn:Txn,porfolioId:string):Promise<any>{
 
-    const id = this._fireStore.createId();
-    let atxn: Txn = this.localTxns[0];
-    atxn.id=id;
-    this._fireStore.collection<Txn>(this.collection_txns).add(atxn);
+    
+    return this._portfolioService.getPortfolioRef(porfolioId)
+        .collection<Txn>(this.collection_txns)
+        .add(JSON.parse(JSON.stringify(txn)))
+        .then(
+          (value) =>{
+            return value.id;
+          },
+          (reason) =>{
+            return reason;
+          }
+        );
+   
   }
 
 }

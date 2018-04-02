@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Portfolio } from '../portfolio';
+import { Observable } from 'rxjs/Observable';
+import { PortfolioService } from '../portfolio.service';
 
 @Component({
   selector: 'app-portfolio-detail',
@@ -9,13 +12,14 @@ import { ActivatedRoute } from '@angular/router';
 export class PortfolioDetailComponent implements OnInit {
   
   
-  portfolioName: string | '';
-
-  constructor(private route: ActivatedRoute) { }
+  folio$: Observable<Portfolio>;
+  folioId:string;
+  constructor(private route: ActivatedRoute,private _portfolioService:PortfolioService) { }
  
   ngOnInit() {   
-    this.portfolioName = this.route.snapshot.params['folioName'];
-    //to do get portfolio details
+    this.folioId = this.route.snapshot.params['folioId'];
+    this.folio$ = this._portfolioService.getPortfolio(this.folioId);
+    
   } 
 
 }

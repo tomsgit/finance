@@ -11,11 +11,14 @@ export class Txn {
     price:number;
     commission:number;
     date:Date;
-    value:number;
+    
    
     type:TxnType;
     exchange:Exchange;
     broker:Broker;
-    
+    value:number;
     id;
+    docRef;
+    
+    
 }

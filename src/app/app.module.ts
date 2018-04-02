@@ -7,7 +7,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { TransactionsComponent } from './transaction/transactions/transactions.component';
 import { TransactionModule } from './transaction/transaction.module';
 import { TxnFormComponent } from './transaction/txn-form/txn-form.component';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModule, NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
 
 import { AngularFireModule } from 'angularfire2';
 //import { AngularFireDatabaseModule } from 'angularfire2/database';
@@ -21,6 +21,8 @@ import { AuthNavBarComponent } from './auth/auth-nav-bar/auth-nav-bar.component'
 import { LoginComponent } from './auth/login/login.component';
 import { AuthRouteGuardService } from './auth/auth-route-guard.service';
 import { LoginRouteGuardService } from './auth/login/login-route-guard.service';
+import { NgbInDateParserFormatterService } from './ngbootstrap/ngb-in-date-parser-formatter.service';
+import { DateUtil } from './ngbootstrap/date-util';
 const routes:Routes = [
   {path:'login',component: LoginComponent,canActivate:[LoginRouteGuardService]},          
   {path:'',redirectTo:'portfolio', pathMatch:'full'},
@@ -44,7 +46,13 @@ const routes:Routes = [
     FormsModule,  
     RouterModule.forRoot(routes,{ enableTracing: true })
   ],
-  providers: [AuthService, AuthRouteGuardService, LoginRouteGuardService],
+  providers: [
+    AuthService,
+    AuthRouteGuardService, 
+    LoginRouteGuardService, 
+    {provide: NgbDateParserFormatter, useClass: NgbInDateParserFormatterService},
+    DateUtil
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
