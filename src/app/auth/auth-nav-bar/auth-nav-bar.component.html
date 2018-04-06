@@ -1,4 +1,4 @@
-<ng-container *ngIf="user$ | async as user;else loading">
+<ng-container *ngIf="(user$| async) as user;else loading">
 
 
   <ng-container *ngIf="user.isLoggedIn; else loggedOutBlock">

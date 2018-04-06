@@ -3,12 +3,13 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { User as FBUser } from '@firebase/auth-types';
 import { Observable } from 'rxjs/Observable';
 import { User } from './user';
+import 'rxjs/add/operator/do';
 
 @Injectable()
 export class AuthService {
 
   constructor(private _firebaseAuth:AngularFireAuth) { }
-
+ 
   authState():Observable<User>{
    return this._firebaseAuth.authState.map((fbUser:FBUser,index:number)=>{
     console.log('fbuser'+fbUser);

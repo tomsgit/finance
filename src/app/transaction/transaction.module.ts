@@ -19,6 +19,9 @@ import { PortfolioPerformanceComponent } from './portfolio-performance/portfolio
 import { PageTitleComponent } from './page-title/page-title.component';
 import { AuthRouteGuardService } from '../auth/auth-route-guard.service';
 import { PortfolioService } from './portfolio.service';
+import { TickerService } from './ticker.service';
+import { QuandlQuoteServiceService } from './quandl-quote-service.service';
+
 
 const routes:Routes = [
   {path:'portfolio',
@@ -57,7 +60,13 @@ const routes:Routes = [
     PortfolioDetailComponent,
     PortfolioPerformanceComponent,
     PageTitleComponent
+
   ],
-  providers: [TransactionService, PortfolioService]
+  providers: [
+    TransactionService,
+    PortfolioService,
+    TickerService,
+    QuandlQuoteServiceService
+  ]
 })
 export class TransactionModule { }

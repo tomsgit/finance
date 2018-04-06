@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import {HttpClientModule} from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -23,6 +24,7 @@ import { AuthRouteGuardService } from './auth/auth-route-guard.service';
 import { LoginRouteGuardService } from './auth/login/login-route-guard.service';
 import { NgbInDateParserFormatterService } from './ngbootstrap/ngb-in-date-parser-formatter.service';
 import { DateUtil } from './ngbootstrap/date-util';
+
 const routes:Routes = [
   {path:'login',component: LoginComponent,canActivate:[LoginRouteGuardService]},          
   {path:'',redirectTo:'portfolio', pathMatch:'full'},
@@ -38,6 +40,7 @@ const routes:Routes = [
   imports: [
     NgbModule.forRoot(),
     BrowserModule,
+    HttpClientModule,
     TransactionModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,

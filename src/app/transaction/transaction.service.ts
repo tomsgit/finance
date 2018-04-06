@@ -37,11 +37,14 @@ export class TransactionService {
     return this._fireStore.collection<Txn>(this.collection_txns).valueChanges();
   }
   getPorfolioTransactions(porfolioId:string):Observable<Txn[]>{
+
     return this._portfolioService.getPortfolioRef(porfolioId)
                 .collection<Txn>(this.collection_txns)
                 .snapshotChanges()
                 .map(actions => {
+
                   return actions.map(action => {
+
                     let t = action.payload.doc.data() as Txn;
                     t.id = action.payload.doc.id;
                     t.docRef = action.payload.doc.ref;
