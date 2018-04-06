@@ -6,13 +6,16 @@ import { QuandlResponse } from './quandl-response';
 import { map, catchError } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class QuandlQuoteServiceService implements IQuoteService{
 
-  readonly url:string = 'https://www.quandl.com/api/v3/datasets/NSE/|code|/data.json?limit=1&api_key=-jhu5Hxf4Ufr7DDnWCSs';
+  readonly _url:string = 'https://www.quandl.com/api/v3/datasets/NSE/|code|/data.json?limit=1&api_key=|apikey|';
   constructor(private _http: HttpClient) { }
-  
+  get url():string{
+    return this._url.replace('|apikey|',environment.quandl.apiKey);
+  }
   getLatesQuote(code: string): Observable<Quote> {
     let u = this.url.replace('|code|',code);
     console.log('url>>'+u)
