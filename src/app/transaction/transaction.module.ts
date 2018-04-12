@@ -21,6 +21,7 @@ import { AuthRouteGuardService } from '../auth/auth-route-guard.service';
 import { PortfolioService } from './portfolio.service';
 import { TickerService } from './ticker.service';
 import { QuandlQuoteServiceService } from './quandl-quote-service.service';
+import { LocalQuoteService } from './local-quote.service';
 
 
 const routes:Routes = [
@@ -66,7 +67,8 @@ const routes:Routes = [
     TransactionService,
     PortfolioService,
     TickerService,
-    QuandlQuoteServiceService
+    QuandlQuoteServiceService,
+    LocalQuoteService
   ]
 })
 export class TransactionModule { }

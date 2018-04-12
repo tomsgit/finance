@@ -17,10 +17,19 @@
     </tr>
   </thead>
   <tbody>
-
+    <tr class="table-warning">
+        <th scope="row" colspan="5">Total</th>
+        <td>{{tcost | number:'1.0-2'}}</td>
+        <td>{{tvalue | number:'1.0-2'}}</td>
+        <td>{{tgain | number:'1.0-2'}}</td>
+        <td>{{tgainpercent | number:'1.0-2'}}</td>
+        <td>{{tchange | number:'1.0-2'}}</td>
+        <td>{{tchangePercent | number:'1.0-2'}}</td>
+     </tr>
     <tr *ngFor="let item of folios | async">
       <th scope="row">{{item.code}}</th>
-      <td>{{_tickerCache.has(item.code)?_tickerCache.get(item.code).name:''}}</td>
+      <!--td>{{_tickerCache.has(item.code)?_tickerCache.get(item.code).name:''}}</td-->
+      <td>{{item.name}}</td>
       <td>{{item.shares}}</td>
       <td>{{item.avgPrice | number:'1.0-2'}}</td>
       <td>{{item.currentPrice|number:'1.0-2'}}</td>

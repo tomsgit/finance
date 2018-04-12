@@ -1,11 +1,19 @@
 export class Quote {
-
-    date:string;
-    open:number;
+    code:string;
+    
     high:number;
     low:number;
+
+    open:number;
     last:number;
     close:number;
-    quantity:number;
-    turnover:number;
+
+    prevclose:number;
+
+    tradeQty:number;
+    tradeValue:number;
+    totTrades:number;
+    
+    isin:string;
+    date:Date;
 }

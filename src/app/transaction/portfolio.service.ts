@@ -67,17 +67,15 @@ export class PortfolioService {
     txns.forEach(
       t =>{
         let c = t.code.toLowerCase();
-        console.log('adding txn for '+c);
+        //console.log('adding txn for '+c);
         //compute cost value
         this._txnService.compute(t);
         if(folio.has(c)){
-          console.log('Folio entry exists for '+c);
+          //console.log('Folio entry exists for '+c);
           folio.get(c).addTransaction(t);
         }else{
-          console.log('New Folio entry for '+c);
+          //console.log('New Folio entry for '+c);
           let p =new PortfolioPerf(t);
-          //let quote$=this._tickerService.getLatestQuote(p.code);
-          //this.subscribeQuote(quote$,p);
           folio.set(c,p);          
         }
     });

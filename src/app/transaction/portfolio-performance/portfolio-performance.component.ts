@@ -34,11 +34,12 @@ export class PortfolioPerformanceComponent implements OnInit {
   }
   ngOnInit() {
     this.title="Portfolio Performance";
-    
     this.folioId = this.route.snapshot.parent.params['folioId'];  
     this.getPortfolioData();
-    this.getTickerData();    
+    //this.getTickerData();
+  
   }
+  
   getPortfolioData():void{
     this.folios = this._portfolioService
                       .calculatePortfolio(this.folioId)
@@ -71,12 +72,14 @@ export class PortfolioPerformanceComponent implements OnInit {
       }
     );
   }
+ 
+ 
   getQuote(p:PortfolioPerf){
-    console.log('setting quote$');
+    //console.log('setting quote$'+p.code);
     let q$=this._tickerService.getLatestQuote(p.code);
     q$.subscribe(
         q =>{
-            console.log('quote obtained');
+            //console.log('quote obtained'+p.code);
             p.quote=q;
             this.doTotals(p)
             this.cdr.markForCheck();
@@ -86,18 +89,11 @@ export class PortfolioPerformanceComponent implements OnInit {
             console.error('error in quote>'+error.code +' : '+ error.message);
         },
         ()=>{
-        console.log('Completed the quote service');
+          //console.log('Completed the quote service');
         }
     );
   }
-  /*
-  <td>{{tcost | number:'1.0-2'}}</td>
-      <td>{{tvalue | number:'1.0-2'}}</td>
-      <td>{{tgain | number:'1.0-2'}}</td>
-      <td>{{tgainpercent | number:'1.0-2'}}</td>
-      <td>{{tchange | number:'1.0-2'}}</td>
-      <td>{{tchangePercent | number:'1.0-2'}}</td>
-  */
+  
   tcost:number=0;
   tvalue:number=0;
   tgain:number=0;
@@ -105,6 +101,14 @@ export class PortfolioPerformanceComponent implements OnInit {
   tchange:number=0;
   tchangePercent:number=0;
   doTotals(p:PortfolioPerf){
+    if(p.shares ==0){
+      console.log('0 shares> skipping totalling for '+p.code)
+      return;
+    }
+    if(!p.quote){
+      console.log('not quote> skipping totalling for '+p.code)
+      return;
+    }
     this.tcost+=p.costValue;
     this.tvalue+=p.currentValue;
 
@@ -113,6 +117,7 @@ export class PortfolioPerformanceComponent implements OnInit {
 
     this.tchange+=(p.change*p.shares);
     this.tchangePercent=this.tchange*100/this.tcost;
+    //console.log('tcost'+this.tcost+'|tvalue'+this.tvalue+'|tgain'+this.tgain+'|tgainpercent'+this.tgainpercent+'|tchange'+this.tchange+'|tchangePercent'+this.tchangePercent);
   }
 
 }

@@ -5,7 +5,9 @@ import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { Quote } from './quote';
 import { IQuoteService } from './i-quote-service';
-import { QuandlQuoteServiceService } from './quandl-quote-service.service';
+import { LocalQuoteService } from './local-quote.service';
+//import { QuandlQuoteServiceService } from './quandl-quote-service.service';
+
 
 @Injectable()
 export class TickerService {
@@ -13,7 +15,7 @@ export class TickerService {
   
   private collection_tickers='ticker';
   private _quoteService:IQuoteService;
-  constructor(private _fireStore:AngularFirestore,quoteService:QuandlQuoteServiceService) {
+  constructor(private _fireStore:AngularFirestore,quoteService:LocalQuoteService) {
     this._quoteService=quoteService;
   }
 

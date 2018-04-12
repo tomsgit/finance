@@ -12,17 +12,39 @@ import { environment } from '../../environments/environment';
 export class QuandlQuoteServiceService implements IQuoteService{
 
   readonly _url:string = 'https://www.quandl.com/api/v3/datasets/NSE/|code|/data.json?limit=1&api_key=|apikey|';
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient) { 
+    this.cache=new Map<string,Quote>();
+    console.log('quandl service initing');
+  }
+  cache:Map<string,Quote>;
   get url():string{
     return this._url.replace('|apikey|',environment.quandl.apiKey);
   }
   getLatesQuote(code: string): Observable<Quote> {
+      let c:string = code.toLowerCase();
+      let o:Observable<Quote>;
+      if(this.cache && this.cache.has(c)){
+        o = Observable.of(this.cache.get(c));
+      }else{
+        //o = this.getLatesQuoteDummy(c);
+        o = this.getLatesQuoteInternal(c);
+        o.forEach(
+          obs => {
+            this.cache.set(c,obs);
+            console.log('quandl cache size>'+this.cache.size);
+          }
+        );
+      }
+      return o;
+  }
+  getLatesQuoteInternal(code: string): Observable<Quote> {
+    
     let u = this.url.replace('|code|',code);
     console.log('url>>'+u)
     return this._http.get<QuandlResponse>(u)
             .pipe(
               map(qr =>{
-                return this.toQuote(qr);
+                return this.toQuote(qr);                
               }),
               catchError(this.handleError)
             )
@@ -64,10 +86,6 @@ export class QuandlQuoteServiceService implements IQuoteService{
     return new ErrorObservable(
       'Something bad happened; please try again later.');
   };
-  getLatesQuoteDummy(code: string): Quote {
-    
-    let q:Quote={date:'4/3/18',close:1000,high:1005,last:980,low:985,open:985,quantity:57000,turnover:123};
-    return q;
-  }
+  
 
 }

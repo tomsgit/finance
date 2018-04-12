@@ -8,7 +8,8 @@ import { Quote } from "./quote";
 
 export class PortfolioPerf {
     code:string;
-    
+    name:string;
+
     shares:number;
     costValue:number;
     
@@ -25,13 +26,14 @@ export class PortfolioPerf {
     
     
     set quote(q:Quote){
-        console.log('set quote'+q);
+        //console.log('set quote'+q);
+        this._quote=q;
         if(q){
             if(q.close){
-                console.log('set quote close'+q.close);
+                //console.log('set quote close'+q.close);
                 this.currentPrice=q.close;
                 this.currentValue=this.currentPrice*this.shares;
-                this.change=q.close-q.last;
+                this.change=q.close-q.prevclose;
                 this.changePercent=this.change*100/q.last;
                 this.gain=(this.currentPrice*this.shares)-this.costValue;
                 this.gainPercent=this.gain*100/this.costValue;
@@ -40,20 +42,34 @@ export class PortfolioPerf {
 
         }
     }
-
-    get avgPrice():number{
-        console.log('avg price');        
+    get quote():Quote{
+        return this._quote;
+    }
+    get avgPrice():number{      
         return this._avgPrice;
     }
     
     constructor(t:Txn){
         this.code=t.code;
-        this.shares=t.shares;
-        this.costValue=t.value;
+        this.name=t.name;
+        if(t.type as TxnType === TxnType.BUY){
+            this.shares=0+t.shares;
+            this.costValue=0+t.value;
+        }else{
+            this.shares=0-t.shares;
+            this.costValue=0-t.value;
+        }
         this._avgPrice=t.value/t.shares;
         this.txns=[];
         this.txns.push(t);
+        this.currentPrice=0;
+        this.currentValue=0;
+        this.change=0;
+        this.changePercent=0;
+        this.gain=0;
+        this.gainPercent=0;
         //this.blank=Observable.of('');
+        
         
     }
     addTransaction(t:Txn){
@@ -64,6 +80,7 @@ export class PortfolioPerf {
             this.shares-=t.shares;
             this.costValue-=t.value;
         }
+        
         this._avgPrice=this.costValue/this.shares;
         this.txns.push(t);
         

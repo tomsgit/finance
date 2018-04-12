@@ -63,7 +63,7 @@ export class TransactionService {
   }
   compute(txn:Txn){
     
-      console.log('computing value');
+      //console.log('computing value');
       let val:number=0;
       if(txn.price && txn.shares){
           val=txn.price * txn.shares;
