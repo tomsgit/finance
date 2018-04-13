@@ -9,12 +9,13 @@ import { Observer } from 'rxjs/Observer';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { PortfolioService } from './portfolio.service';
 import { DocumentReference } from '@firebase/firestore-types';
+import { TxnWrapper } from './txn-wrapper';
 
 @Injectable()
 export class TransactionService {
 
-  deleteTxn(txn:Txn): any {
-    txn.docRef.delete();
+  deleteTxn(w:TxnWrapper): any {
+    w.docRef.delete();
   }
   
   constructor(private _fireStore:AngularFirestore, private _portfolioService:PortfolioService ) { 
@@ -36,7 +37,23 @@ export class TransactionService {
 
     return this._fireStore.collection<Txn>(this.collection_txns).valueChanges();
   }
-  getPorfolioTransactions(porfolioId:string):Observable<Txn[]>{
+  getTransaction(porfolioId:string,txnId:string):Observable<TxnWrapper>{
+    return this._portfolioService
+        .getPortfolioRef(porfolioId)
+        .collection(this.collection_txns)
+        .doc(txnId)
+        .snapshotChanges()
+        .map(action => {
+
+          let wrapper:TxnWrapper = new TxnWrapper();
+          wrapper.docRef=action.payload.ref;
+          wrapper.txn=action.payload.data() as Txn;          
+          return wrapper;
+          
+        });
+
+  }
+  getPorfolioTransactions(porfolioId:string):Observable<TxnWrapper[]>{
 
     return this._portfolioService.getPortfolioRef(porfolioId)
                 .collection<Txn>(this.collection_txns)
@@ -44,11 +61,11 @@ export class TransactionService {
                 .map(actions => {
 
                   return actions.map(action => {
-
-                    let t = action.payload.doc.data() as Txn;
-                    t.id = action.payload.doc.id;
-                    t.docRef = action.payload.doc.ref;
-                    return t;
+                    
+                    let wrapper:TxnWrapper = new TxnWrapper();
+                    wrapper.docRef=action.payload.doc.ref;
+                    wrapper.txn=action.payload.doc.data() as Txn;         
+                    return wrapper;
                   })
                 });
     
@@ -77,9 +94,9 @@ export class TransactionService {
       }
       txn.value=val;  
   }
-  saveTransactions(txn:Txn,porfolioId:string):Promise<any>{
+  addTransaction(txn:Txn,porfolioId:string):Promise<any>{
 
-    
+    txn.code=txn.code.toUpperCase();
     return this._portfolioService.getPortfolioRef(porfolioId)
         .collection<Txn>(this.collection_txns)
         .add(JSON.parse(JSON.stringify(txn)))
@@ -92,6 +109,12 @@ export class TransactionService {
           }
         );
    
+  }
+
+  saveTransaction(w:TxnWrapper):Promise<any>{
+    w.txn.code=w.txn.code.toUpperCase();  
+    return w.docRef.update(w.txn);
+    
   }
 
 }

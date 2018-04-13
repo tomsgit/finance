@@ -7,6 +7,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable } from 'rxjs/Observable';
 import { Txn } from '../txn';
 import { ActivatedRoute } from '@angular/router';
+import { TxnWrapper } from '../txn-wrapper';
 
 @Component({
   selector: 'transaction-transactions',
@@ -17,7 +18,7 @@ import { ActivatedRoute } from '@angular/router';
 export class TransactionsComponent implements OnInit {
 
   title:string;
-  transactions:Txn[];
+  transactions:TxnWrapper[];
   
   constructor(private _txnService:TransactionService,private route: ActivatedRoute) { }
   TxnType=TxnType;
@@ -32,10 +33,10 @@ export class TransactionsComponent implements OnInit {
   getTransactions(){
     console.log('Retrieving txns for folioId>'+this.folioId);
       this._txnService.getPorfolioTransactions(this.folioId)
-                            .map(result => {
-                                return result.map(txn =>{
-                                    this._txnService.compute(txn);                                 
-                                    return txn;
+                            .map(wrprs => {
+                                return wrprs.map(wrpr =>{
+                                    this._txnService.compute(wrpr.txn);                                 
+                                    return wrpr;
                                 });
                             }).subscribe(
                               result =>{
@@ -51,16 +52,16 @@ export class TransactionsComponent implements OnInit {
                             };
     }
     
-  deleteTxn(txn:Txn):void{
-    console.log('deleting <'+txn.code+'>'+txn.docRef.id);
-    this._txnService.deleteTxn(txn);
+  deleteTxn(wrpr:TxnWrapper):void{
+    console.log('deleting <'+wrpr.txn.code+'>'+wrpr.docRef.id);
+    this._txnService.deleteTxn(wrpr);
   }
   deleteAll(transactions):void{
     console.log('delete all called');
     this.transactions
         .forEach(         
-          txn => {           
-              this.deleteTxn(txn);            
+          wrpr => {           
+              this.deleteTxn(wrpr);            
           }
         );         
   }

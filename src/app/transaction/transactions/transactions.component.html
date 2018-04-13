@@ -14,15 +14,16 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let txn of transactions">
-      <th scope="row">{{txn.code}}</th>
-      <td>{{txn.name}}</td>
-      <td>{{TxnType[txn.type]}}</td>
-      <td>{{txn.shares}}</td>
-      <td>{{txn.price}}</td>
-      <td>{{txn.date|date:'dd/MM/yy'}}</td>
-      <td>{{txn.value}}</td>
-      <td><button type="button" class="btn btn-outline-danger" (click)='deleteTxn(txn)'>Delete</button></td>
+    <tr *ngFor="let wrpr of transactions">
+      
+      <th scope="row"><button type="button" routerLink="{{wrpr.docRef.id}}" routerLinkActive="active" class="btn btn-link">{{wrpr.txn.code}}</button></th>
+      <td>{{wrpr.txn.name}}</td>
+      <td>{{TxnType[wrpr.txn.type]}}</td>
+      <td>{{wrpr.txn.shares}}</td>
+      <td>{{wrpr.txn.price}}</td>
+      <td>{{wrpr.txn.date|date:'dd/MM/yy'}}</td>
+      <td>{{wrpr.txn.value |number:'1.0-2'}}</td>
+      <td><button type="button" class="btn btn-outline-danger" (click)='deleteTxn(wrpr)'>Delete</button></td>
     </tr>
     
   </tbody>

@@ -7,6 +7,7 @@ import { TransactionService } from './transaction.service';
 import { PortfolioPerf } from './portfolio-perf';
 import { Txn } from './txn';
 import { TickerService } from './ticker.service';
+import { TxnWrapper } from './txn-wrapper';
 
 @Injectable()
 export class PortfolioService {
@@ -56,16 +57,17 @@ export class PortfolioService {
         
     return this._txnService
                       .getPorfolioTransactions(folioId)
-                      .map(txns =>{
-                        console.log('Txns size '+txns.length);
-                        return this.pushTransactions(txns);                            
+                      .map(wrprs =>{
+                        console.log('Txns size '+wrprs.length);
+                        return this.pushTransactions(wrprs);                            
                       });
                                        
   }
-  pushTransactions(txns:Txn[]):PortfolioPerf[]{
+  pushTransactions(wrprs:TxnWrapper[]):PortfolioPerf[]{
     let folio:Map<string,PortfolioPerf> = new Map<string,PortfolioPerf>();    
-    txns.forEach(
-      t =>{
+    wrprs.forEach(
+      w =>{
+        let t=w.txn;
         let c = t.code.toLowerCase();
         //console.log('adding txn for '+c);
         //compute cost value

@@ -22,6 +22,7 @@ import { PortfolioService } from './portfolio.service';
 import { TickerService } from './ticker.service';
 import { QuandlQuoteServiceService } from './quandl-quote-service.service';
 import { LocalQuoteService } from './local-quote.service';
+import { TransactionDetailComponent } from './transaction-detail/transaction-detail.component';
 
 
 const routes:Routes = [
@@ -35,6 +36,7 @@ const routes:Routes = [
             {path:'',pathMatch: 'full', redirectTo: 'perf'},
             {path:'perf',component:PortfolioPerformanceComponent},
             {path:'txns',component:TransactionsComponent},
+            {path:'txns/:txnId',component:TransactionDetailComponent},
             {path:'newtxn',component:TxnFormComponent},           
         ]},
     ]
@@ -60,7 +62,8 @@ const routes:Routes = [
     PortfolioListComponent,
     PortfolioDetailComponent,
     PortfolioPerformanceComponent,
-    PageTitleComponent
+    PageTitleComponent,
+    TransactionDetailComponent
 
   ],
   providers: [

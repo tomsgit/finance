@@ -1,6 +1,7 @@
 import { Exchange } from "./exchange.enum";
 import { Broker } from "./broker.enum";
 import { TxnType } from "./txn-type.enum";
+import { DocumentReference } from "@firebase/firestore-types";
 
 export class Txn {
 
@@ -17,8 +18,7 @@ export class Txn {
     exchange:Exchange;
     broker:Broker;
     value:number;
-    id;
-    docRef;
+
     
     
 }

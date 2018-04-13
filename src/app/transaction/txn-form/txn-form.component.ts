@@ -36,10 +36,10 @@ export class TxnFormComponent implements OnInit {
     console.log('Add txns for folioId>' + this.folioId);
     this.init();
   }
-  saveTransaction(form:NgForm){
+  addTransaction(form:NgForm){
     console.log('saving');
     this.saving=true;
-    this._txnService.saveTransactions(this.txn,this.folioId)
+    this._txnService.addTransaction(this.txn,this.folioId)
           .then(
             (result) =>{
               console.log('Saved document'+result);

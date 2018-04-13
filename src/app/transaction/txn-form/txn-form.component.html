@@ -1,5 +1,5 @@
 <page-title [title]="title"></page-title>
-<form #f1="ngForm" (ngSubmit)="saveTransaction(f1)" novalidate>
+<form #f1="ngForm" (ngSubmit)="addTransaction(f1)" novalidate>
   <div class="btn-group btn-group-toggle" ngbRadioGroup name="txnType" [(ngModel)]="txn.type">
     <label ngbButtonLabel class="btn-info">
       <input ngbButton type="radio" [value]="TxnType.BUY"> BUY
