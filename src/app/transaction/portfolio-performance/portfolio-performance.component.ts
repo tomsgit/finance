@@ -5,9 +5,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Txn } from '../txn';
 import { PortfolioPerf } from '../portfolio-perf';
 import { Observable } from 'rxjs/Observable';
-import { TickerService } from '../ticker.service';
-import { Ticker } from '../ticker';
-import { Quote } from "../quote";
+import { TickerService } from 'app/ticker/ticker.service';
+import { Ticker } from 'app/ticker/ticker';
+import { Quote } from "app/ticker/quote/quote";
 import { PortfolioService } from '../portfolio.service';
 import { tap } from 'rxjs/operators';
 

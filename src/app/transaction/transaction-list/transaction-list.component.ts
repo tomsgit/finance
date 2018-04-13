@@ -10,12 +10,12 @@ import { ActivatedRoute } from '@angular/router';
 import { TxnWrapper } from '../txn-wrapper';
 
 @Component({
-  selector: 'transaction-transactions',
-  templateUrl: './transactions.component.html',
-  styleUrls: ['./transactions.component.css'],
+  selector: 'transaction-list',
+  templateUrl: './transaction-list.component.html',
+  styleUrls: ['./transaction-list.component.css'],
 
 })
-export class TransactionsComponent implements OnInit {
+export class TransactionListComponent implements OnInit {
 
   title:string;
   transactions:TxnWrapper[];

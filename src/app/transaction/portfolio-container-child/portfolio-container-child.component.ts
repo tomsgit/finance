@@ -5,11 +5,11 @@ import { Observable } from 'rxjs/Observable';
 import { PortfolioService } from '../portfolio.service';
 
 @Component({
-  selector: 'app-portfolio-detail',
-  templateUrl: './portfolio-detail.component.html',
-  styleUrls: ['./portfolio-detail.component.css']
+  selector: 'portfolio-container-child',
+  templateUrl: './portfolio-container-child.component.html',
+  styleUrls: ['./portfolio-container-child.component.css']
 })
-export class PortfolioDetailComponent implements OnInit {
+export class PortfolioContainerChildComponent implements OnInit {
   
   
   folio$: Observable<Portfolio>;

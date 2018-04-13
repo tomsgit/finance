@@ -10,11 +10,11 @@ import { DateUtil } from '../../ngbootstrap/date-util';
 import { NgForm } from '@angular/forms';
 
 @Component({
-  selector: 'transaction-txn-form',
-  templateUrl: './txn-form.component.html',
-  styleUrls: ['./txn-form.component.css']
+  selector: 'transaction-new',
+  templateUrl: './transaction-new.component.html',
+  styleUrls: ['./transaction-new.component.css']
 })
-export class TxnFormComponent implements OnInit {
+export class NewTransactionComponent implements OnInit {
 
   private txn: Txn;
   TxnType = TxnType;

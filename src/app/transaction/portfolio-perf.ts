@@ -1,9 +1,9 @@
 import { Txn } from "./txn";
 import { TxnType } from "./txn-type.enum";
-import { Ticker } from "./ticker";
+import { Ticker } from "app/ticker/ticker";
 import { Observable } from "rxjs/Observable";
 import { map } from "rxjs/operators";
-import { Quote } from "./quote";
+import { Quote } from "app/ticker/quote/quote";
 
 
 export class PortfolioPerf {

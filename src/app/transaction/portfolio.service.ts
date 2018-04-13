@@ -6,7 +6,6 @@ import { CollectionReference, QuerySnapshot } from '@firebase/firestore-types';
 import { TransactionService } from './transaction.service';
 import { PortfolioPerf } from './portfolio-perf';
 import { Txn } from './txn';
-import { TickerService } from './ticker.service';
 import { TxnWrapper } from './txn-wrapper';
 
 @Injectable()

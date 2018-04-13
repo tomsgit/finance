@@ -3,9 +3,9 @@ import { Ticker } from './ticker';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
-import { Quote } from './quote';
-import { IQuoteService } from './i-quote-service';
-import { LocalQuoteService } from './local-quote.service';
+import { Quote } from 'app/ticker/quote/quote';
+import { IQuoteService } from 'app/ticker/quote/i-quote-service';
+import { LocalQuoteService } from 'app/ticker/quote/local/local-quote.service';
 //import { QuandlQuoteServiceService } from './quandl-quote-service.service';
 
 

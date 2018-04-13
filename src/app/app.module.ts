@@ -5,9 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { TransactionsComponent } from './transaction/transactions/transactions.component';
 import { TransactionModule } from './transaction/transaction.module';
-import { TxnFormComponent } from './transaction/txn-form/txn-form.component';
 import {NgbModule, NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
 
 import { AngularFireModule } from 'angularfire2';
@@ -24,12 +22,11 @@ import { AuthRouteGuardService } from './auth/auth-route-guard.service';
 import { LoginRouteGuardService } from './auth/login/login-route-guard.service';
 import { NgbInDateParserFormatterService } from './ngbootstrap/ngb-in-date-parser-formatter.service';
 import { DateUtil } from './ngbootstrap/date-util';
+import { TickerModule } from './ticker/ticker.module';
+import { AppRoutingModule } from './app-routing.module';
+import { CoreModule } from './core/core.module';
 
-const routes:Routes = [
-  {path:'login',component: LoginComponent,canActivate:[LoginRouteGuardService]},          
-  {path:'',redirectTo:'portfolio', pathMatch:'full'},
-  {path:'**',redirectTo:'portfolio', pathMatch:'full'}
-]
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,13 +38,15 @@ const routes:Routes = [
     NgbModule.forRoot(),
     BrowserModule,
     HttpClientModule,
-    TransactionModule,
+    //TransactionModule,
+    //TickerModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     //AngularFireDatabaseModule,
     AngularFireAuthModule,
-    FormsModule,  
-    RouterModule.forRoot(routes,{ enableTracing: true })
+    FormsModule,
+    CoreModule.forRoot(),  
+    AppRoutingModule
   ],
   providers: [
     AuthService,

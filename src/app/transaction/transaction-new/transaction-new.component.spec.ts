@@ -1,20 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NewTransactionComponent } from './transaction-new.component';
 
-import { TxnFormComponent } from './txn-form.component';
 
-describe('TxnFormComponent', () => {
-  let component: TxnFormComponent;
-  let fixture: ComponentFixture<TxnFormComponent>;
+
+describe('NewTransactionComponent', () => {
+  let component: NewTransactionComponent;
+  let fixture: ComponentFixture<NewTransactionComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TxnFormComponent ]
+      declarations: [ NewTransactionComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TxnFormComponent);
+    fixture = TestBed.createComponent(NewTransactionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

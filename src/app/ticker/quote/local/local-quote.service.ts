@@ -1,7 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
-import { IQuoteService } from './i-quote-service';
+import { IQuoteService } from 'app/ticker/quote/i-quote-service';
 import { Observable } from 'rxjs/Observable';
-import { Quote } from './quote';
+import { Quote } from 'app/ticker/quote/quote';
 import { AngularFirestore } from 'angularfire2/firestore';
 
 @Injectable()

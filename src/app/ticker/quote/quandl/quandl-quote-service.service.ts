@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { IQuoteService } from './i-quote-service';
-import { Quote } from './quote';
+import { IQuoteService } from 'app/ticker/quote/i-quote-service';
+import { Quote } from 'app/ticker/quote/quote';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { QuandlResponse } from './quandl-response';
 import { map, catchError } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
-import { environment } from '../../environments/environment';
+import { environment } from 'environments/environment';
+
 
 @Injectable()
 export class QuandlQuoteServiceService implements IQuoteService{

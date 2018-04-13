@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TransactionsComponent } from './transactions/transactions.component';
+import { TransactionListComponent } from 'app/transaction/transaction-list/transaction-list.component';
 import { TransactionService } from './transaction.service';
-import { TxnFormComponent } from './txn-form/txn-form.component';
+
 import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -12,36 +12,20 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { environment } from '../../environments/environment';
 import { FormsModule } from '@angular/forms';
-import { PortfolioComponent } from './portfolio/portfolio.component';
+import { PortfolioContainerRootComponent } from './portfolio-container-root/portfolio-container-root.component';
 import { PortfolioListComponent } from './portfolio-list/portfolio-list.component';
-import { PortfolioDetailComponent } from './portfolio-detail/portfolio-detail.component';
+import { PortfolioContainerChildComponent } from './portfolio-container-child/portfolio-container-child.component';
 import { PortfolioPerformanceComponent } from './portfolio-performance/portfolio-performance.component';
 import { PageTitleComponent } from './page-title/page-title.component';
 import { AuthRouteGuardService } from '../auth/auth-route-guard.service';
 import { PortfolioService } from './portfolio.service';
-import { TickerService } from './ticker.service';
-import { QuandlQuoteServiceService } from './quandl-quote-service.service';
-import { LocalQuoteService } from './local-quote.service';
 import { TransactionDetailComponent } from './transaction-detail/transaction-detail.component';
+import { TickerModule } from '../ticker/ticker.module';
+import { TransactionRoutingModule } from './transaction-routing.module';
+import { NewTransactionComponent } from './transaction-new/transaction-new.component';
 
 
-const routes:Routes = [
-  {path:'portfolio',
-    component:PortfolioComponent,
-    canActivate:[AuthRouteGuardService],
-    children:[
-      {path:'',component:PortfolioListComponent},
-      {path:':folioId',component:PortfolioDetailComponent,
-        children:[
-            {path:'',pathMatch: 'full', redirectTo: 'perf'},
-            {path:'perf',component:PortfolioPerformanceComponent},
-            {path:'txns',component:TransactionsComponent},
-            {path:'txns/:txnId',component:TransactionDetailComponent},
-            {path:'newtxn',component:TxnFormComponent},           
-        ]},
-    ]
-    
-  }];
+
 @NgModule({
   imports: [
     CommonModule,
@@ -49,29 +33,25 @@ const routes:Routes = [
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     FormsModule,
-    RouterModule.forChild(routes)
+    TransactionRoutingModule
   ],
   exports:[
     RouterModule
   ],
  
   declarations: [
-    TransactionsComponent,
-    TxnFormComponent,
-    PortfolioComponent,
+    TransactionListComponent,
+    NewTransactionComponent,    
     PortfolioListComponent,
-    PortfolioDetailComponent,
     PortfolioPerformanceComponent,
     PageTitleComponent,
-    TransactionDetailComponent
-
+    TransactionDetailComponent,
+    PortfolioContainerChildComponent,
+    PortfolioContainerRootComponent
   ],
   providers: [
     TransactionService,
-    PortfolioService,
-    TickerService,
-    QuandlQuoteServiceService,
-    LocalQuoteService
+    PortfolioService
   ]
 })
 export class TransactionModule { }
