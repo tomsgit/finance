@@ -10,7 +10,9 @@
       <th scope="col">Price</th>
       <th scope="col">Date</th>
       <th scope="col">Value</th>
-      <th scope="col"><button type="button" class="btn btn-outline-danger" (click)='deleteAll(transactions)'>Delete All</button></th>
+      <th scope="col">
+        <!--button type="button" class="btn btn-outline-danger" (click)='deleteAll(transactions)'>Delete All</button-->
+      </th>
     </tr>
   </thead>
   <tbody>
@@ -23,7 +25,7 @@
       <td>{{wrpr.txn.price}}</td>
       <td>{{wrpr.txn.date|date:'dd/MM/yy'}}</td>
       <td>{{wrpr.txn.value |number:'1.0-2'}}</td>
-      <td><button type="button" class="btn btn-outline-danger" (click)='deleteTxn(wrpr)'>Delete</button></td>
+      <td><button type="button" class="btn btn-outline-danger" routerLink="{{wrpr.docRef.id}}">Update</button></td>
     </tr>
     
   </tbody>

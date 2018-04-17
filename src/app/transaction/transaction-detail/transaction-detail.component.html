@@ -62,6 +62,8 @@
     </ng-container>
     <ng-template #button>
       <button type="submit" [disabled]="f1.invalid" class="btn btn-success" >Update</button>
+
+      <button type="submit" class="btn btn-success btn-outline-danger" (click)='deleteTxn()'>Delete</button>
     </ng-template>
     
     <br>

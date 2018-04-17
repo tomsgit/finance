@@ -91,4 +91,11 @@ export class TransactionDetailComponent implements OnInit {
 
           )
   }
+  deleteTxn():void{
+    console.log('deleting <'+this._txnWrapper.txn.code+'>'+this._txnWrapper.docRef.id);
+    this.saving=true;
+    this._txnService.deleteTxn(this._txnWrapper);
+    this.saving=false;
+    this._router.navigate(['portfolio',this.folioId,'txns']);
+  }
 }
