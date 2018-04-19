@@ -1,0 +1,30 @@
+<ticker-breadcrumb route="new" label="New Ticker"></ticker-breadcrumb>
+
+<form #f1="ngForm" (ngSubmit)="addTicker(f1)" novalidate>
+
+  <div class="form-group">
+    <label for="type">Code</label>
+    <input type="text" required minlength="3" [(ngModel)]="ticker.code" class="form-control" name="code" id="code" placeholder="NSE script code">
+  </div>
+  <div class="form-group">
+    <label for="type">Name</label>
+    <input type="text" required minlength="3" [(ngModel)]="ticker.name" class="form-control" name="name" id="name" placeholder="Company Name">
+  </div>
+
+
+  <ng-container *ngIf="saving;else button">
+    Saving...
+  </ng-container>
+  <ng-template #button>
+    <button type="submit" [disabled]="f1.invalid" class="btn btn-success">Add</button>
+    
+  </ng-template>
+
+  <br> {{ticker|json}}
+  <div class="alert alert-danger fade show" style="margin-top:1rem" role="alert" *ngIf="error">
+    {{error}}
+  </div>
+  <div class="alert alert-danger fade show" style="margin-top:1rem" role="alert" *ngIf="f1.invalid && f1.touched">
+    Errors on form!
+  </div>
+</form>

@@ -17,7 +17,7 @@ import { PortfolioListComponent } from './portfolio-list/portfolio-list.componen
 import { PortfolioContainerChildComponent } from './portfolio-container-child/portfolio-container-child.component';
 import { PortfolioPerformanceComponent } from './portfolio-performance/portfolio-performance.component';
 import { PageTitleComponent } from './page-title/page-title.component';
-import { AuthRouteGuardService } from '../auth/auth-route-guard.service';
+import { AuthRouteGuardService } from 'app/core/auth/auth-route-guard.service';
 import { PortfolioService } from './portfolio.service';
 import { TransactionDetailComponent } from './transaction-detail/transaction-detail.component';
 import { TickerModule } from '../ticker/ticker.module';

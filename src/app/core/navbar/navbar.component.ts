@@ -8,8 +8,10 @@ import { AuthService } from '../auth/auth.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-
-  constructor() { }
+  title:string;
+  constructor() {
+    this.title = 'Personal Finance';
+  }
   
   ngOnInit() {
     

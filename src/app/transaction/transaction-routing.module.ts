@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PortfolioContainerRootComponent } from 'app/transaction/portfolio-container-root/portfolio-container-root.component';
-import { AuthRouteGuardService } from 'app/auth/auth-route-guard.service';
+import { AuthRouteGuardService } from 'app/core/auth/auth-route-guard.service';
 import { PortfolioListComponent } from 'app/transaction/portfolio-list/portfolio-list.component';
 import { PortfolioContainerChildComponent } from 'app/transaction/portfolio-container-child/portfolio-container-child.component';
 import { PortfolioPerformanceComponent } from 'app/transaction/portfolio-performance/portfolio-performance.component';
@@ -23,10 +23,11 @@ const routes:Routes = [
             {path:'txns',component:TransactionListComponent},
             {path:'txns/:txnId',component:TransactionDetailComponent},
             {path:'newtxn',component:NewTransactionComponent},           
-        ]},
+        ]
+      },
     ]
-    
-  }];
+  }    
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

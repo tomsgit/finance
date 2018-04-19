@@ -1,0 +1,14 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <button type="button" [routerLink]="['/ticker/']" routerLinkActive="active" class="btn btn-link">Ticker</button>
+    </li>
+    <li class="breadcrumb-item">
+        <button type="button" [routerLink]="['/ticker/',route]" routerLinkActive="active" class="btn btn-link">{{label}}</button>
+    </li>
+
+  </ol>
+</nav>
+<div class="mb-2">
+    <h3>{{label}}</h3>
+</div>

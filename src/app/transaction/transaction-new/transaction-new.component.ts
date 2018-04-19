@@ -6,7 +6,7 @@ import { Broker } from '../broker.enum';
 import { TransactionService } from '../transaction.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { DateUtil } from '../../ngbootstrap/date-util';
+import { DateUtil } from 'app/core/ngbootstrap/date-util';
 import { NgForm } from '@angular/forms';
 
 @Component({

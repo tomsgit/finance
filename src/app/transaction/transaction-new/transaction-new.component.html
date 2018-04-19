@@ -31,6 +31,10 @@
     <label for="type">Script</label>    
     <input type="text" required minlength="3" [(ngModel)]="txn.code" class="form-control" name="script" id="script" placeholder="NSE script code">    
 </div>
+<div class="form-group">
+    <label for="type">Name</label>    
+    <input type="text" required minlength="3" [(ngModel)]="txn.name" class="form-control" name="name" id="name" placeholder="Company name">    
+</div>
   <div class="form-group">
       <label for="type">Shares</label>    
       <input type="number" required [(ngModel)]="txn.shares" class="form-control" name="shares" id="shares" placeholder="Number of shares">    

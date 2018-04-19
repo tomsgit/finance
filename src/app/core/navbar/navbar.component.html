@@ -1,0 +1,21 @@
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+  <nav >
+    <span class="navbar-brand mb-0 h1">{{title}}</span>
+  </nav>
+  
+
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active mr-1">
+        <button [routerLink]="['portfolio']" type="button" class="btn btn-info">Portfolio</button>
+      </li>
+      <li class="nav-item mr-1">
+        <button [routerLink]="['ticker']" type="button" class="btn btn-info">Ticker</button>
+      </li>
+      
+    </ul>
+  </div>
+  <div class="col float-right">
+      <app-auth-nav-bar></app-auth-nav-bar>
+  </div>
+</nav>

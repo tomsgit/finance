@@ -1,0 +1,18 @@
+<ticker-breadcrumb route="list" label="Ticker List"></ticker-breadcrumb>
+<table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+      <tr>
+        
+        <th scope="col">Code</th>
+        <th scope="col">Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr *ngFor="let ticker of tickers$ | async">
+        <th scope="row"><button type="button" [routerLink]="['/ticker',ticker.code]" routerLinkActive="active" class="btn btn-link">{{ticker.code}}</button></th>
+        <td>{{ticker.name}}</td>
+      </tr>
+      
+    </tbody>
+  </table>
