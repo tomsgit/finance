@@ -12,7 +12,7 @@ export class BatchLogService {
   getAll(): Observable<BatchLog[]> {
     return this._fireStore.collection<BatchLog>(this.collection,
                 ref =>{
-                  return ref.orderBy("date");
+                  return ref.orderBy('date','desc').limit(5);
                 })
                 .valueChanges();
   }
