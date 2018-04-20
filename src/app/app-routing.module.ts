@@ -8,6 +8,7 @@ const routes:Routes = [
   {path:'login',component: LoginComponent,canActivate:[LoginRouteGuardService]},          
   {path: 'portfolio',loadChildren: 'app/transaction/transaction.module#TransactionModule'},
   {path: 'ticker',loadChildren: 'app/ticker/ticker.module#TickerModule'},
+  {path: 'admin',loadChildren: 'app/admin/admin.module#AdminModule'},
   {path:'',redirectTo:'portfolio', pathMatch:'full'},
   {path:'**',redirectTo:'portfolio', pathMatch:'full'}
 ]

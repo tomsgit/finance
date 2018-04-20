@@ -8,6 +8,7 @@ import { LoginRouteGuardService } from 'app/core/auth/login/login-route-guard.se
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date-parser-formatter';
 import { NgbInDateParserFormatterService } from 'app/core/ngbootstrap/ngb-in-date-parser-formatter.service';
 import { DateUtil } from 'app/core/ngbootstrap/date-util';
+import { BatchLogService } from '../admin/batch-log.service';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { DateUtil } from 'app/core/ngbootstrap/date-util';
     AuthRouteGuardService, 
     LoginRouteGuardService, 
     {provide: NgbDateParserFormatter, useClass: NgbInDateParserFormatterService},
-    DateUtil
+    DateUtil,
+    BatchLogService
   ],
   exports:[
   ]

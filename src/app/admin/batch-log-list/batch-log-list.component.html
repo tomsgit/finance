@@ -1,0 +1,31 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <button type="button" [routerLink]="['/admin/']" routerLinkActive="active" class="btn btn-link">Admin</button>
+    </li>
+    <li class="breadcrumb-item">
+        <button type="button" [routerLink]="['/admin/','batchlog']" routerLinkActive="active" class="btn btn-link">{{title}}</button>
+    </li>
+
+  </ol>
+</nav>
+<div class="mb-2">
+    <h3>{{title}}</h3>
+</div>
+<table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+      <tr>
+        
+        <th scope="col">Date</th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr *ngFor="let log of logs$ | async">
+        <th scope="row">{{log.date|date:'medium'}}</th>
+        <td>{{log.status}}</td>
+      </tr>
+      
+    </tbody>
+  </table>
