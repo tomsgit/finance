@@ -9,8 +9,13 @@ import { AuthService } from '../auth/auth.service';
 })
 export class NavbarComponent implements OnInit {
   title:string;
+  collapsed = true;
+     
   constructor() {
     this.title = 'Personal Finance';
+  }
+  toggleNavBar(): void {
+    this.collapsed = !this.collapsed;
   }
   
   ngOnInit() {

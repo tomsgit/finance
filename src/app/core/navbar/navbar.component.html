@@ -2,17 +2,20 @@
   <nav >
     <span class="navbar-brand mb-0 h1">{{title}}</span>
   </nav>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" (click)="toggleNavBar()">
+    <span class="navbar-toggler-icon"></span>
+  </button>
   
 
-  <div class="collapse navbar-collapse" id="navbarNav">
+  <div [ngClass]="{'collapse': collapsed, 'navbar-collapse': true}" id="navbarNav">
     <ul class="navbar-nav">
-      <li class="nav-item active mr-1">
+      <li class="nav-item active mr-1 mb-1">
         <button [routerLink]="['portfolio']" type="button" class="btn btn-info">Portfolio</button>
       </li>
-      <li class="nav-item mr-1">
+      <li class="nav-item mr-1 mb-1">
         <button [routerLink]="['ticker']" type="button" class="btn btn-info">Ticker</button>
       </li>
-      <li class="nav-item mr-1">
+      <li class="nav-item mr-1 mb-1">
         <button [routerLink]="['admin']" type="button" class="btn btn-info">Admin</button>
       </li>
       

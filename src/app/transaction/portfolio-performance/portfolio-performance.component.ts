@@ -24,14 +24,12 @@ export class PortfolioPerformanceComponent implements OnInit {
   private _tickerCache:Map<string,Ticker>;
   private _quotes:Map<string,Quote>
   folioId:string;
- 
-  
+
   constructor(private _portfolioService:PortfolioService,private route: ActivatedRoute, private _tickerService: TickerService,private cdr: ChangeDetectorRef) { 
     this._tickerCache=new Map<string,Ticker>();
-    this._quotes=new Map<string,Quote>();
-    
-    
+    this._quotes=new Map<string,Quote>();        
   }
+  
   ngOnInit() {
     this.title="Portfolio Performance";
     this.folioId = this.route.snapshot.parent.params['folioId'];  
