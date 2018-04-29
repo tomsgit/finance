@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { AuthService } from '../auth.service';
+import { AuthService } from 'app/core/auth/auth.service';
 
 
 import { Observable } from 'rxjs/Observable';
-import { User } from '../user';
+import { User } from 'app/core/auth/user';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from 'angularfire2/auth';
 

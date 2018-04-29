@@ -23,6 +23,8 @@ import { TransactionDetailComponent } from './transaction-detail/transaction-det
 import { TickerModule } from '../ticker/ticker.module';
 import { TransactionRoutingModule } from './transaction-routing.module';
 import { NewTransactionComponent } from './transaction-new/transaction-new.component';
+import { CoreModule } from '../core/core.module';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -33,6 +35,7 @@ import { NewTransactionComponent } from './transaction-new/transaction-new.compo
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     FormsModule,
+    SharedModule,
     TransactionRoutingModule
   ],
   exports:[

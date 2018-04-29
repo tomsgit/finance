@@ -9,12 +9,16 @@ import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap/datepicker/ng
 import { NgbInDateParserFormatterService } from 'app/core/ngbootstrap/ngb-in-date-parser-formatter.service';
 import { DateUtil } from 'app/core/ngbootstrap/date-util';
 import { BatchLogService } from '../admin/batch-log.service';
+import { FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+
   ],
   declarations: [
+
   ],
   providers:[
     TickerService,

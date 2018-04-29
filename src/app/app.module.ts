@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { NavbarComponent } from 'app/core/navbar/navbar.component';
 import { TransactionModule } from './transaction/transaction.module';
 import {NgbModule, NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
 
@@ -16,7 +15,6 @@ import { environment } from './../environments/environment';
 
 import { FormsModule } from '@angular/forms';
 import { AuthService } from 'app/core/auth/auth.service';
-import { AuthNavBarComponent } from 'app/core//auth/auth-nav-bar/auth-nav-bar.component';
 import { LoginComponent } from 'app/core//auth/login/login.component';
 import { AuthRouteGuardService } from 'app/core//auth/auth-route-guard.service';
 import { LoginRouteGuardService } from 'app/core//auth/login/login-route-guard.service';
@@ -25,13 +23,12 @@ import { DateUtil } from 'app/core/ngbootstrap/date-util';
 import { TickerModule } from './ticker/ticker.module';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
+import { SharedModule } from './shared/shared.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent,
-    AuthNavBarComponent,
     LoginComponent
   ],
   imports: [
@@ -45,6 +42,7 @@ import { CoreModule } from './core/core.module';
     //AngularFireDatabaseModule,
     AngularFireAuthModule,
     FormsModule,
+    SharedModule,
     CoreModule.forRoot(),  
     AppRoutingModule
   ],

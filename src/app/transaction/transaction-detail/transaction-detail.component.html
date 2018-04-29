@@ -29,11 +29,7 @@
       </label>
     </div>
     <hr>
-    <div class="form-group">
-      <label for="type">Search</label>    
-      <input type="text" required minlength="3" [(ngModel)]="query" class="form-control" name="query" id="query" placeholder="NSE script code" 
-        [ngbTypeahead]="search" (selectItem)="setTicker($event.item)" [resultFormatter]="formatter" [inputFormatter]="formatter">    
-  </div>
+    <ticker-typeahead (selection)="setTicker($event)"></ticker-typeahead>
     <div class="form-group">
       <label for="type">Script</label>    
       <input type="text" required minlength="3" readonly [(ngModel)]="txn.code" class="form-control" name="script" id="script" placeholder="NSE script code">    

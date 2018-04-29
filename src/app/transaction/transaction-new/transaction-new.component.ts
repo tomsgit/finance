@@ -11,7 +11,7 @@ import { NgForm } from '@angular/forms';
 import { TickerService } from 'app/ticker/ticker.service';
 import { Ticker } from 'app/ticker/ticker';
 import { Observable } from 'rxjs/Observable';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+
 
 @Component({
   selector: 'transaction-new',
@@ -21,7 +21,6 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 export class NewTransactionComponent implements OnInit {
 
   private txn: Txn;
-  _query:String;
   TxnType = TxnType;
   Exchange = Exchange;
   Broker = Broker;
@@ -30,9 +29,9 @@ export class NewTransactionComponent implements OnInit {
   _date: NgbDateStruct;
   error:string;
   saving:boolean;
-  tickers:Ticker[];
-  constructor(private _tickerService:TickerService, private _txnService: TransactionService, private route: ActivatedRoute, private _dateUtil:DateUtil,private _router:Router) {
-     this.tickers=[];
+
+  constructor( private _txnService: TransactionService, private route: ActivatedRoute, private _dateUtil:DateUtil,private _router:Router) {
+
      
   }
 
@@ -42,20 +41,7 @@ export class NewTransactionComponent implements OnInit {
     console.log('Add txns for folioId>' + this.folioId);
     this.init();
   }
-  getTickerData():void{
-    this._tickerService.getAllTickers().subscribe(
-      (tickers:Ticker[]) =>{
-        console.log('Tickers fetched');
-        this.tickers=tickers;
-      },
-      (error)=>{
-        console.error('error in ticker'+error);
-      },
-      ()=>{
-        console.log('Completed the ticker service');
-      }
-    );
-  }
+
   /*
   search (text$: Observable<string>){
     return text$
@@ -67,30 +53,7 @@ export class NewTransactionComponent implements OnInit {
       .do(() => console.log('search complete'));
 
   }*/
-  formatter = (t:Ticker) =>{return t.code}
-  search = (text$: Observable<string>) => {  
-   
-    return text$
-    .pipe(
-      debounceTime(200),
-      distinctUntilChanged()
-    )
-    .map(term => {
-      if(term.length < 3){
-        return [];
-      }
-      let q = term.toUpperCase();
-      console.log('ticker search>'+q);
-      return this.tickers
-                  .filter(t =>                     
-                      (t.code.toUpperCase().indexOf(q) > -1) 
-                      || 
-                      (t.name.toUpperCase().indexOf(q) > -1)
-                  )
-                  .slice(0, 10);
-                  //.map(t => t.code);
-    });
-  }
+  
   addTransaction(form:NgForm){
     console.log('saving');
     this.saving=true;
@@ -110,22 +73,7 @@ export class NewTransactionComponent implements OnInit {
 
           )
   }
-  get query(){
-    return this._query;
-  }
-  set query(q:any){
-    console.log('setq');
-    let c=q;
-    if(q.code){
-      c=q.code;
-    }
-    this._query=c;
-    if(! (c===this.txn.code || c.code===this.txn.code)){
-      this.txn.code="";
-      this.txn.name="";
-    }
-    
-  }
+ 
   init():void{
     this.txn = new Txn();
     this.txn.date = new Date();
@@ -134,7 +82,6 @@ export class NewTransactionComponent implements OnInit {
     this.txn.type = TxnType.BUY;
     this.txn.broker = Broker.ZERODHA;
     this.saving=false;
-    this.getTickerData();
   }
   get date():NgbDateStruct{     
      return this._date;  
