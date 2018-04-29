@@ -28,12 +28,17 @@
   </div>
   <hr>
   <div class="form-group">
-    <label for="type">Script</label>    
-    <input type="text" required minlength="3" [(ngModel)]="txn.code" class="form-control" name="script" id="script" placeholder="NSE script code">    
+    <label for="type">Search</label>    
+    <input type="text" required minlength="3" [(ngModel)]="query" class="form-control" name="query" id="query" placeholder="NSE script code" 
+      [ngbTypeahead]="search" (selectItem)="setTicker($event.item)" [resultFormatter]="formatter" [inputFormatter]="formatter">    
+</div>
+<div class="form-group">
+  <label for="type">Script</label>    
+  <input type="text" required readonly minlength="3" [(ngModel)]="txn.code" class="form-control" name="script" id="script" placeholder="NSE script code">    
 </div>
 <div class="form-group">
     <label for="type">Name</label>    
-    <input type="text" required minlength="3" [(ngModel)]="txn.name" class="form-control" name="name" id="name" placeholder="Company name">    
+    <input type="text" required minlength="3" [(ngModel)]="txn.name" readonly="true" class="form-control" name="name" id="name" placeholder="Company name">    
 </div>
   <div class="form-group">
       <label for="type">Shares</label>    

@@ -11,6 +11,9 @@ import { Observable } from 'rxjs/Observable';
 import { tap } from 'rxjs/operators/tap';
 import { NgForm } from '@angular/forms';
 import { TxnWrapper } from '../txn-wrapper';
+import { Ticker } from 'app/ticker/ticker';
+import { TickerService } from 'app/ticker/ticker.service';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-transaction-detail',
@@ -33,8 +36,12 @@ export class TransactionDetailComponent implements OnInit {
   _date: NgbDateStruct;
   error:string;
   saving:boolean;
+  _query:String;
+  tickers:Ticker[];
 
-  constructor(private _txnService: TransactionService,private _dateUtil:DateUtil,private route: ActivatedRoute,private _router:Router) { }
+  constructor(private _tickerService:TickerService, private _txnService: TransactionService,private _dateUtil:DateUtil,private route: ActivatedRoute,private _router:Router) { 
+    this.tickers=[];
+  }
 
   ngOnInit() {
     this.title='Transaction Detail';
@@ -54,6 +61,21 @@ export class TransactionDetailComponent implements OnInit {
           () => console.log('completed get transaction')
         );
     this.saving=false;
+    this.getTickerData();
+  }
+  getTickerData():void{
+    this._tickerService.getAllTickers().subscribe(
+      (tickers:Ticker[]) =>{
+        console.log('Tickers fetched');
+        this.tickers=tickers;
+      },
+      (error)=>{
+        console.error('error in ticker'+error);
+      },
+      ()=>{
+        console.log('Completed the ticker service');
+      }
+    );
   }
   compute(t:Txn):void{
     
@@ -97,5 +119,50 @@ export class TransactionDetailComponent implements OnInit {
     this._txnService.deleteTxn(this._txnWrapper);
     this.saving=false;
     this._router.navigate(['portfolio',this.folioId,'txns']);
+  }
+  get query(){
+    return this._query;
+  }
+  set query(q:any){
+    console.log('setq');
+    let c=q;
+    if(q.code){
+      c=q.code;
+    }
+    this._query=c;
+    if(! (c===this.txn.code || c.code===this.txn.code)){
+      this.txn.code="";
+      this.txn.name="";
+    }
+    
+  }
+  setTicker(item:Ticker){
+    console.log('selected'+item);
+    this.txn.code=item.code;
+    this.txn.name=item.name;
+  }
+  formatter = (t:Ticker) =>{return t.code}
+  search = (text$: Observable<string>) => {  
+   
+    return text$
+    .pipe(
+      debounceTime(200),
+      distinctUntilChanged()
+    )
+    .map(term => {
+      if(term.length < 3){
+        return [];
+      }
+      let q = term.toUpperCase();
+      console.log('ticker search>'+q);
+      return this.tickers
+                  .filter(t =>                     
+                      (t.code.toUpperCase().indexOf(q) > -1) 
+                      || 
+                      (t.name.toUpperCase().indexOf(q) > -1)
+                  )
+                  .slice(0, 10);
+                  //.map(t => t.code);
+    });
   }
 }
