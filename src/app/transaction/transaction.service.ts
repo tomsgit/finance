@@ -56,7 +56,9 @@ export class TransactionService {
   getPorfolioTransactions(porfolioId:string):Observable<TxnWrapper[]>{
 
     return this._portfolioService.getPortfolioRef(porfolioId)
-                .collection<Txn>(this.collection_txns)
+                .collection<Txn>(this.collection_txns,ref =>{
+                  return ref.orderBy('date','desc');
+                })
                 .snapshotChanges()
                 .map(actions => {
 
@@ -79,7 +81,8 @@ export class TransactionService {
     });
   }
   compute(txn:Txn){
-    
+    //date object comes as string!!! Convert to Date
+    txn.date=new Date(txn.date);
       //console.log('computing value');
       let val:number=0;
       if(txn.price && txn.shares){

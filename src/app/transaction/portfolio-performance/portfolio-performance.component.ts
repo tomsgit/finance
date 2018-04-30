@@ -20,14 +20,16 @@ import { tap } from 'rxjs/operators';
 export class PortfolioPerformanceComponent implements OnInit {
   
   title:string;
-  private folios:Observable<PortfolioPerf[]>;
+  //private folios$:Observable<PortfolioPerf[]>;
+  private folios:PortfolioPerf[];
   private _tickerCache:Map<string,Ticker>;
   private _quotes:Map<string,Quote>
   folioId:string;
 
   constructor(private _portfolioService:PortfolioService,private route: ActivatedRoute, private _tickerService: TickerService,private cdr: ChangeDetectorRef) { 
     this._tickerCache=new Map<string,Ticker>();
-    this._quotes=new Map<string,Quote>();        
+    this._quotes=new Map<string,Quote>();
+    this.folios=[];       
   }
   
   ngOnInit() {
@@ -39,7 +41,7 @@ export class PortfolioPerformanceComponent implements OnInit {
   }
   
   getPortfolioData():void{
-    this.folios = this._portfolioService
+   this._portfolioService
                       .calculatePortfolio(this.folioId)
                       .pipe(
                         tap(folioList =>{
@@ -49,7 +51,12 @@ export class PortfolioPerformanceComponent implements OnInit {
                             }
                           );
                         })
+                      ).subscribe(
+                        data => this.folios=data,
+                        err => console.error('error doing portfolio'+err.message),
+                        () => console.log('calc portfolio complete')
                       );
+                        
     
       
   }
@@ -104,7 +111,7 @@ export class PortfolioPerformanceComponent implements OnInit {
       return;
     }
     if(!p.quote){
-      console.log('not quote> skipping totalling for '+p.code)
+      console.log('no quote> skipping totalling for '+p.code)
       return;
     }
     this.tcost+=p.costValue;

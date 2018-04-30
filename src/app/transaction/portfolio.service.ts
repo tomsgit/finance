@@ -58,9 +58,16 @@ export class PortfolioService {
                       .getPorfolioTransactions(folioId)
                       .map(wrprs =>{
                         console.log('Txns size '+wrprs.length);
-                        return this.pushTransactions(wrprs);                            
+                        //folios
+                        let folios:PortfolioPerf[] = this.pushTransactions(wrprs);
+                        //calulate folios
+                        folios.forEach(f => f.settle());
+                        return folios;                            
                       });
                                        
+  }
+  processFolios(folios:PortfolioPerf[]){
+
   }
   pushTransactions(wrprs:TxnWrapper[]):PortfolioPerf[]{
     let folio:Map<string,PortfolioPerf> = new Map<string,PortfolioPerf>();    
