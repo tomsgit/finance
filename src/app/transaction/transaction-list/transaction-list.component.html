@@ -1,21 +1,21 @@
 <page-title [title]="title"></page-title>
-<table class="table table-bordered table-striped table-responsive">
-  <thead>
+<table class="table table-bordered table-striped table-responsive table-sm">
+  <thead class="thead-dark">
     <tr>
       
-      <th scope="col">Code</th>
+      <th scope="col" (click)="sort('code')">Code <i class="fas fa-sort"></i></th>
       <th scope="col">Name</th>
-      <th scope="col">Type</th>
+      <th scope="col" (click)="sort('type')">Type <i class="fas fa-sort"></i></th>
       <th scope="col">Shares</th>
       <th scope="col">Price</th>
-      <th scope="col">Date</th>
-      <th scope="col">Value</th>
+      <th scope="col" (click)="sort('date')">Date <i class="fas fa-sort"></i></th>
+      <th scope="col" (click)="sort('value')">Value <i class="fas fa-sort"></i></th>
       <th scope="col">
         <!--button type="button" class="btn btn-outline-danger" (click)='deleteAll(transactions)'>Delete All</button-->
       </th>
       <th scope="col">
           
-              <label for="copyTarget">Copy To</label>
+              <label for="copyTarget">Copy Target</label>
               <select id="copyTarget" class="form-control" [(ngModel)]='copyTarget'>
                   <option value="">Select</option>
                   <option *ngFor="let folio of portfolioList" [value]="folio.id">{{folio.name}}</option>

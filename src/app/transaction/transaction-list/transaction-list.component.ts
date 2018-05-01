@@ -26,6 +26,8 @@ export class TransactionListComponent implements OnInit {
   folioId:string;
   _copyTarget:string;
   copyTargetName:string;
+  sortField:string;
+  sortOrder:number;
 
   constructor(private _txnService:TransactionService,private route: ActivatedRoute,private _portfolioService:PortfolioService) { }
   get copyTarget(){
@@ -38,6 +40,7 @@ export class TransactionListComponent implements OnInit {
   ngOnInit() {
     this.title="Transaction List";
     this.folioId = this.route.snapshot.parent.params['folioId'];
+    this.sortOrder=1;
     this.getTransactions();
     this._portfolioService.getPortfolioList()
         .map(folioList => folioList.filter(folio => folio.id !== this.folioId))    
@@ -77,6 +80,55 @@ export class TransactionListComponent implements OnInit {
     console.log(txn);
     console.log(this._copyTarget);
     this._txnService.addTransaction(txn,this.copyTarget);
+  }
+  sort(field:string){
+    this.sortOrder=this.sortOrder*-1;
+    let comparator:any;
+    switch (field){
+           
+      case'code':{
+        comparator=this.codeSorter;
+        break;
+      }
+      case'type':{
+        comparator=this.typeSorter;
+        break;
+      }
+      case'value':{
+        comparator=this.valueSorter;
+        break;
+      }
+      case'date':{
+        comparator=this.dateSorter;
+        break;
+      }
+      default:{
+        console.log('default sort');
+        comparator=this.codeSorter;
+        break;
+      }
+    }
+    this.transactions.sort(comparator)
+    
+  }
+ 
+  codeSorter=(l:TxnWrapper,r:TxnWrapper)=>{
+    
+    return this.sortOrder*(l.txn.code.localeCompare(r.txn.code));
+  }
+  typeSorter=(l:TxnWrapper,r:TxnWrapper)=>{
+    
+    return this.sortOrder*(l.txn.type>r.txn.type?1:-1);
+  }
+  valueSorter=(l:TxnWrapper,r:TxnWrapper)=>{
+    
+    return this.sortOrder*(l.txn.value>r.txn.value?1:-1);
+  }
+  dateSorter=(l:TxnWrapper,r:TxnWrapper)=>{
+    
+    return this.sortOrder*(l.txn.date>r.txn.date?1:-1);
+    //console.log(this.sortOrder+' LEFT>'+l.txn.date+' RIGHT>'+r.txn.date+'o/p>'+o);
+    //return o;
   }
 
 }

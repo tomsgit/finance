@@ -1,19 +1,19 @@
 <page-title [title]="title"></page-title>
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped table-sm">
   <thead class="thead-dark">
     <tr>
       
-      <th scope="col">Code</th>
-      <th scope="col">Name</th>
+      <th scope="col" (click)="sort('code')" style="width: 10%">Code <i class="fas fa-sort"></i></th>
+      <th scope="col" style="width: 10%">Name</th>
       <th scope="col">Shares</th>
-      <th scope="col">Avg  Price</th>
-      <th scope="col">Current Price</th>
-      <th scope="col">Cost Value</th>
-      <th scope="col">Current Value</th>
-      <th scope="col">Gain</th>
+      <th scope="col">Avg</th>
+      <th scope="col">Price</th>
+      <th scope="col" (click)="sort('cost')">Cost <i class="fas fa-sort"></i></th>
+      <th scope="col" (click)="sort('value')">Value <i class="fas fa-sort"></i></th>
+      <th scope="col" (click)="sort('gain')">Gain <i class="fas fa-sort"></i></th>
       <th scope="col">Gain %</th>
-      <th scope="col">Day Change</th>
-      <th scope="col">Day %</th>
+      <th scope="col">Delta</th>
+      <th scope="col" (click)="sort('delta')">Delta % <i class="fas fa-sort"></i></th>
     </tr>
   </thead>
   <tbody>
@@ -27,10 +27,10 @@
         <td>{{tchangePercent | number:'1.0-2'}}</td>
      </tr>
      <ng-template ngFor let-item [ngForOf]="folios">
-        <tr *ngIf="item.shares >0">
+        <tr *ngIf="item.shares >0" [ngClass]="{'table-success': item.gainPercent >5,'table-danger': item.gainPercent <-5}">
             <th scope="row">{{item.code}}</th>
             <!--td>{{_tickerCache.has(item.code)?_tickerCache.get(item.code).name:''}}</td-->
-            <td>{{item.name}}</td>
+            <td>{{ (item.name.length>8)? (item.name | slice:0:8)+'..':(item.name) }}</td>
             <td>{{item.shares}}</td>
             <td>{{item.avgPrice | number:'1.0-2'}}</td>
             <td>{{item.currentPrice|number:'1.0-2'}}</td>
@@ -39,7 +39,9 @@
             <td>{{item.gain|number:'1.0-2'}}</td>
             <td>{{item.gainPercent |number:'1.0-2'}}</td>
             <td>{{item.change|number:'1.0-2'}}</td>
-            <td>{{item.changePercent|number:'1.0-2'}}</td>
+            <td [ngClass]="{'bg-success': item.changePercent >2,'bg-danger': item.gainPercent <-2}">
+              {{item.changePercent|number:'1.0-2'}}
+            </td>
           </tr>
      </ng-template>
     

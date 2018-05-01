@@ -77,15 +77,22 @@ export class PortfolioPerf {
     }
     settle(){
         //sort oldest last
-        this.openTxns.sort((l,r) => l.date.getUTCMilliseconds()>r.date.getUTCMilliseconds()?-1:1);
+        this.openTxns.sort((l,r) => l.date.getUTCMilliseconds()>r.date.getUTCMilliseconds()?1:-1);
         let t:Txn;
         while(this.sharesToSettle>0){
             t = this.openTxns.pop();
+            //console.log(this.name+ '>pop>'+t.date+'shares>'+t.shares+'price>'+t.price);
             if(this.sharesToSettle < t.shares){
+                let ratioOfSplit = this.sharesToSettle/t.shares;
                 //clone
-                let tnew = Object.create(t);
-                tnew.shares=t.shares-this.sharesToSettle;
+                let tnew = Object.assign(new Txn(),t);
+                
+
+                tnew.shares=tnew.shares-this.sharesToSettle;
                 t.shares=this.sharesToSettle;
+
+                t.value=t.value*ratioOfSplit;
+                tnew.value=tnew.value-t.value;                                
                 this.openTxns.push(tnew);
                 
             }
@@ -98,24 +105,42 @@ export class PortfolioPerf {
         this.openTxns.forEach(t => this.consolidateOpenTxn(t));
         //calculate settled
         this.settledTxns.forEach(t => this.consolidateSettledTxn(t));
+
+        //this.diagnostics();
     }
-    
+    diagnostics(){
+        console.log('-------START----------<'+this.name+'>---------------------------');
+
+        console.log('-------OPEN TXN----------<'+this.name+'>---------------------------');
+        this.openTxns.forEach(t => console.log(TxnType[t.type]+'|'+t.date +' | '+t.shares+'|'+t.price+'|val>'+t.value));
+
+        console.log('-------OPEN TXN END----------<'+this.name+'>---------------------------');
+
+        console.log('-------SETTLED TXN----------<'+this.name+'>---------------------------');
+        this.settledTxns.forEach(t => console.log(TxnType[t.type]+'|'+t.date +' | '+t.shares+'|'+t.price+'|val>'+t.value))
+        console.log('-------SETTLED TXN END----------<'+this.name+'>---------------------------');
+
+        console.log('--------END---------<'+this.name+'>---------------------------');
+    }
     consolidateSettledTxn(t:Txn){
         if(t.type as TxnType === TxnType.BUY){
-           
+            //console.log(this.name+'consolidateSettledTxn>>BUY>>'+t.value);
             this.realised-=t.value;
         }else{
+            //console.log(this.name+'consolidateSettledTxn>>SELL>>'+t.value);
             this.realised+=t.value;
-        }         
+        }  
+        //console.log(this.name+'consolidateSettledTxn>>total>>'+this.realised);       
     }
     consolidateOpenTxn(t:Txn){
         if(t.type as TxnType === TxnType.BUY){
             this.shares+=t.shares;
             this.costValue+=t.value;
+            //console.log(this.name+'consolidateOpenTxn>>shares>>'+this.shares +'|costValue>'+this.costValue);
         }else{
-            console.error('Open transactions are BUY only');
+            console.error(this.name+'Open transactions are BUY only');
         }
-        
+        //console.log(this.name+'consolidateOpenTxn>>total>>'+this.realised);
         this._avgPrice=this.costValue/this.shares;
         
         

@@ -25,6 +25,8 @@ export class PortfolioPerformanceComponent implements OnInit {
   private _tickerCache:Map<string,Ticker>;
   private _quotes:Map<string,Quote>
   folioId:string;
+  sortField:string;
+  sortOrder:number;
 
   constructor(private _portfolioService:PortfolioService,private route: ActivatedRoute, private _tickerService: TickerService,private cdr: ChangeDetectorRef) { 
     this._tickerCache=new Map<string,Ticker>();
@@ -34,6 +36,7 @@ export class PortfolioPerformanceComponent implements OnInit {
   
   ngOnInit() {
     this.title="Portfolio Performance";
+    this.sortOrder=1;
     this.folioId = this.route.snapshot.parent.params['folioId'];  
     this.getPortfolioData();
     //this.getTickerData();
@@ -52,7 +55,10 @@ export class PortfolioPerformanceComponent implements OnInit {
                           );
                         })
                       ).subscribe(
-                        data => this.folios=data,
+                        data => {
+                          this.folios=data;
+                          this.sort('value');
+                        },
                         err => console.error('error doing portfolio'+err.message),
                         () => console.log('calc portfolio complete')
                       );
@@ -107,7 +113,7 @@ export class PortfolioPerformanceComponent implements OnInit {
   tchangePercent:number=0;
   doTotals(p:PortfolioPerf){
     if(p.shares ==0){
-      console.log('0 shares> skipping totalling for '+p.code)
+      //console.log('0 shares> skipping totalling for '+p.code)
       return;
     }
     if(!p.quote){
@@ -125,4 +131,57 @@ export class PortfolioPerformanceComponent implements OnInit {
     //console.log('tcost'+this.tcost+'|tvalue'+this.tvalue+'|tgain'+this.tgain+'|tgainpercent'+this.tgainpercent+'|tchange'+this.tchange+'|tchangePercent'+this.tchangePercent);
   }
 
+
+  sort(field:string){
+    this.sortOrder=this.sortOrder*-1;
+    let comparator:any;
+    switch (field){
+      case'value':{
+        comparator=this.valueSorter;
+        break;
+      }
+      case'delta':{
+        comparator=this.deltaSorter;
+        break;
+      }
+      case'gain':{
+        comparator=this.gainSorter;
+        break;
+      }
+      
+      case'code':{
+        comparator=this.codeSorter;
+        break;
+      }
+      default:{
+        console.log('default sort');
+        comparator=this.valueSorter;
+        break;
+      }
+    }
+    this.folios.sort(comparator)
+    
+  }
+  costSorter=(l:PortfolioPerf,r:PortfolioPerf)=>{
+    
+    return this.sortOrder*(l.costValue>r.costValue?1:-1);
+  }
+  codeSorter=(l:PortfolioPerf,r:PortfolioPerf)=>{
+    
+    return this.sortOrder*(l.code.localeCompare(r.code));
+  }
+  valueSorter=(l:PortfolioPerf,r:PortfolioPerf)=>{
+    
+    return this.sortOrder*(l.currentValue>r.currentValue?1:-1);
+  }
+  gainSorter=(l:PortfolioPerf,r:PortfolioPerf)=>{
+    
+    return this.sortOrder*(l.gain>r.gain?1:-1);
+  }
+  deltaSorter=(l:PortfolioPerf,r:PortfolioPerf)=>{
+    
+    return this.sortOrder*(l.changePercent>r.changePercent?1:-1);
+    //console.log(this.sortOrder+' LEFT>'+l.changePercent+' RIGHT>'+l.changePercent+'o/p>'+o);
+    //return o;
+  }
 }
