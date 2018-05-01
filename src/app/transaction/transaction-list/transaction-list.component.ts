@@ -8,6 +8,8 @@ import { Observable } from 'rxjs/Observable';
 import { Txn } from '../txn';
 import { ActivatedRoute } from '@angular/router';
 import { TxnWrapper } from '../txn-wrapper';
+import { Portfolio } from 'app/transaction/portfolio';
+import { PortfolioService } from 'app/transaction/portfolio.service';
 
 @Component({
   selector: 'transaction-list',
@@ -19,16 +21,31 @@ export class TransactionListComponent implements OnInit {
 
   title:string;
   transactions:TxnWrapper[];
-  
-  constructor(private _txnService:TransactionService,private route: ActivatedRoute) { }
+  portfolioList:Portfolio[];
   TxnType=TxnType;
   folioId:string;
+  _copyTarget:string;
+  copyTargetName:string;
+
+  constructor(private _txnService:TransactionService,private route: ActivatedRoute,private _portfolioService:PortfolioService) { }
+  get copyTarget(){
+    return this._copyTarget;
+  }
+  set copyTarget(p:string){
+    this._copyTarget=p;
+    this.copyTargetName = this.portfolioList.find(f => f.id===p).name;
+  }
   ngOnInit() {
     this.title="Transaction List";
-    
     this.folioId = this.route.snapshot.parent.params['folioId'];
     this.getTransactions();
-            
+    this._portfolioService.getPortfolioList()
+        .map(folioList => folioList.filter(folio => folio.id !== this.folioId))    
+        .subscribe(
+          folioList => this.portfolioList=folioList,
+          err => console.error('err getting portfoliolist'+err.message),
+          () => console.log('completed getting portfoliolist')
+        );        
   }
   getTransactions(){
     console.log('Retrieving txns for folioId>'+this.folioId);
@@ -56,13 +73,10 @@ export class TransactionListComponent implements OnInit {
     console.log('deleting <'+wrpr.txn.code+'>'+wrpr.docRef.id);
     this._txnService.deleteTxn(wrpr);
   }
-  deleteAll(transactions):void{
-    console.log('delete all called');
-    this.transactions
-        .forEach(         
-          wrpr => {           
-              this.deleteTxn(wrpr);            
-          }
-        );         
+  copyTxn(txn:Txn){
+    console.log(txn);
+    console.log(this._copyTarget);
+    this._txnService.addTransaction(txn,this.copyTarget);
   }
+
 }
