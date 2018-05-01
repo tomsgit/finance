@@ -20,7 +20,7 @@ import { Observable } from 'rxjs/Observable';
 })
 export class NewTransactionComponent implements OnInit {
 
-  private txn: Txn;
+  txn: Txn;
   TxnType = TxnType;
   Exchange = Exchange;
   Broker = Broker;

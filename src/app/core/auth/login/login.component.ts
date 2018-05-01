@@ -11,8 +11,8 @@ import { User } from '../user';
 })
 export class LoginComponent implements OnInit {
 
-  private authError:string; 
-  private loginForm:Login;
+  authError:string; 
+  loginForm:Login;
   
   constructor(private _authService: AuthService, private _router:Router) { 
     

@@ -15,7 +15,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 })
 export class AuthNavBarComponent implements OnInit {
   
-  private user$:Observable<User>;
+  user$:Observable<User>;
   
   constructor(private _authService: AuthService,private _router:Router) { 
   }

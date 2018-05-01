@@ -21,7 +21,7 @@ export class PortfolioPerformanceComponent implements OnInit {
   
   title:string;
   //private folios$:Observable<PortfolioPerf[]>;
-  private folios:PortfolioPerf[];
+  folios:PortfolioPerf[];
   private _tickerCache:Map<string,Ticker>;
   private _quotes:Map<string,Quote>
   folioId:string;
