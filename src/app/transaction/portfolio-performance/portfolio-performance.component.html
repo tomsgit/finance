@@ -39,7 +39,7 @@
             <td>{{item.gain|number:'1.0-2'}}</td>
             <td>{{item.gainPercent |number:'1.0-2'}}</td>
             <td>{{item.change|number:'1.0-2'}}</td>
-            <td [ngClass]="{'bg-success': item.changePercent >2,'bg-danger': item.gainPercent <-2}">
+            <td [ngClass]="{'bg-success': item.changePercent >2,'bg-danger': item.changePercent <-2}">
               {{item.changePercent|number:'1.0-2'}}
             </td>
           </tr>
