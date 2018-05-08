@@ -4,7 +4,11 @@
     <tr>
       
       <th scope="col" (click)="sort('code')" style="width: 10%">Code <i class="fas fa-sort"></i></th>
-      <th scope="col" style="width: 10%">Name</th>
+      <th scope="col" [style.width]="nameWidth">
+        Name 
+        <i class="fas fa-angle-double-right" (click)="incrNameWidth()" *ngIf="!isExpanded"></i>
+        <i class="fas fa-angle-double-left" (click)="decrNameWidth()" *ngIf="isExpanded"></i>
+      </th>
       <th scope="col">Shares</th>
       <th scope="col">Avg</th>
       <th scope="col">Price</th>
@@ -12,8 +16,8 @@
       <th scope="col" (click)="sort('value')">Value <i class="fas fa-sort"></i></th>
       <th scope="col" (click)="sort('gain')">Gain <i class="fas fa-sort"></i></th>
       <th scope="col">Gain %</th>
-      <th scope="col">Delta</th>
-      <th scope="col" (click)="sort('delta')">Delta % <i class="fas fa-sort"></i></th>
+      <th scope="col" (click)="sort('delta')">Delta <i class="fas fa-sort"></i></th>
+      <th scope="col" (click)="sort('deltapercent')">Delta % <i class="fas fa-sort"></i></th>
     </tr>
   </thead>
   <tbody>
@@ -30,7 +34,8 @@
         <tr *ngIf="item.shares >0" [ngClass]="{'table-success': item.gainPercent >5,'table-danger': item.gainPercent <-5}">
             <th scope="row">{{item.code}}</th>
             <!--td>{{_tickerCache.has(item.code)?_tickerCache.get(item.code).name:''}}</td-->
-            <td>{{ (item.name.length>8)? (item.name | slice:0:8)+'..':(item.name) }}</td>
+            <td *ngIf="!isExpanded">{{ (item.name.length>8)? (item.name | slice:0:8)+'..':(item.name) }}</td>
+            <td *ngIf="isExpanded">{{ (item.name.length>28)? (item.name | slice:0:26)+'..':(item.name) }}</td>
             <td>{{item.shares}}</td>
             <td>{{item.avgPrice | number:'1.0-2'}}</td>
             <td>{{item.currentPrice|number:'1.0-2'}}</td>

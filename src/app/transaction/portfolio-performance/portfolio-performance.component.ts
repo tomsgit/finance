@@ -27,11 +27,18 @@ export class PortfolioPerformanceComponent implements OnInit {
   folioId:string;
   sortField:string;
   sortOrder:number;
-
+  _nameWidth:number;
+  _nameWidthMax:number;
+  _nameWidthMin:number;
+  isExpanded:boolean;
   constructor(private _portfolioService:PortfolioService,private route: ActivatedRoute, private _tickerService: TickerService,private cdr: ChangeDetectorRef) { 
     this._tickerCache=new Map<string,Ticker>();
     this._quotes=new Map<string,Quote>();
-    this.folios=[];       
+    this.folios=[];
+    this._nameWidthMin=10;
+    this._nameWidthMax=20;
+    this._nameWidth=this._nameWidthMin;
+    this.isExpanded=false;       
   }
   
   ngOnInit() {
@@ -42,7 +49,18 @@ export class PortfolioPerformanceComponent implements OnInit {
     //this.getTickerData();
   
   }
-  
+  get nameWidth(){
+    console.log('name width');
+    return this._nameWidth+'%';
+  }
+  incrNameWidth(){
+    this._nameWidth=this._nameWidthMax;
+    this.isExpanded=true;
+  }
+  decrNameWidth(){
+    this._nameWidth=this._nameWidthMin;
+    this.isExpanded=false;
+  }
   getPortfolioData():void{
    this._portfolioService
                       .calculatePortfolio(this.folioId)
@@ -144,6 +162,10 @@ export class PortfolioPerformanceComponent implements OnInit {
         comparator=this.deltaSorter;
         break;
       }
+      case'deltapercent':{
+        comparator=this.deltaPercentSorter;
+        break;
+      }
       case'gain':{
         comparator=this.gainSorter;
         break;
@@ -179,6 +201,12 @@ export class PortfolioPerformanceComponent implements OnInit {
     return this.sortOrder*(l.gain>r.gain?1:-1);
   }
   deltaSorter=(l:PortfolioPerf,r:PortfolioPerf)=>{
+    
+    return this.sortOrder*(l.change>r.change?1:-1);
+    //console.log(this.sortOrder+' LEFT>'+l.changePercent+' RIGHT>'+l.changePercent+'o/p>'+o);
+    //return o;
+  }
+  deltaPercentSorter=(l:PortfolioPerf,r:PortfolioPerf)=>{
     
     return this.sortOrder*(l.changePercent>r.changePercent?1:-1);
     //console.log(this.sortOrder+' LEFT>'+l.changePercent+' RIGHT>'+l.changePercent+'o/p>'+o);
