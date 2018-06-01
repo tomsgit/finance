@@ -9,9 +9,11 @@ export class DateUtil {
     public fromNgbDateStruct(dt: NgbDateStruct) {
        
         let date = new Date();
-        date.setDate(dt.day);
-        date.setMonth(dt.month-1)
         date.setFullYear(dt.year);
+        date.setMonth(dt.month-1)
+        date.setDate(dt.day);
+        
+        
         return date;
     }
 }
