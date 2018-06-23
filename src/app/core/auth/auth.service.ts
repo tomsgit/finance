@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { User as FBUser } from '@firebase/auth-types';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import {map} from 'rxjs/operators';
 import { User } from './user';
-import 'rxjs/add/operator/do';
+
 
 @Injectable()
 export class AuthService {
@@ -11,10 +12,13 @@ export class AuthService {
   constructor(private _firebaseAuth:AngularFireAuth) { }
  
   authState():Observable<User>{
-   return this._firebaseAuth.authState.map((fbUser:FBUser,index:number)=>{
-    console.log('fbuser'+fbUser);
-    return new User(fbUser);
-   });
+   return this._firebaseAuth.authState
+    .pipe(
+      map((fbUser:FBUser,index:number)=>{
+        console.log('fbuser'+fbUser);
+        return new User(fbUser);
+      })
+    );
   }
   isLoggedIn():boolean{
     let loggedIn=false;

@@ -4,8 +4,8 @@ import { Quote } from 'app/ticker/quote/quote';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { QuandlResponse } from './quandl-response';
 import { map, catchError } from 'rxjs/operators';
-import { Observable } from 'rxjs/Observable';
-import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import { Observable, Observer,throwError  } from 'rxjs';
+//import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { environment } from 'environments/environment';
 
 
@@ -25,7 +25,9 @@ export class QuandlQuoteServiceService implements IQuoteService{
       let c:string = code.toLowerCase();
       let o:Observable<Quote>;
       if(this.cache && this.cache.has(c)){
-        o = Observable.of(this.cache.get(c));
+        o = Observable.create(
+          (obs:Observer<Quote>) =>obs.next(this.cache.get(c))
+        );
       }else{
         //o = this.getLatesQuoteDummy(c);
         o = this.getLatesQuoteInternal(c);
@@ -46,9 +48,16 @@ export class QuandlQuoteServiceService implements IQuoteService{
             .pipe(
               map(qr =>{
                 return this.toQuote(qr);                
+              })
+            );
+    /*
+    return this._http.get<QuandlResponse>(u)
+            .pipe(
+              map(qr =>{
+                return this.toQuote(qr);                
               }),
               catchError(this.handleError)
-            )
+            );*/
 
     
   }
@@ -84,8 +93,7 @@ export class QuandlQuoteServiceService implements IQuoteService{
         `body was: ${error.error}`);
     }
     // return an ErrorObservable with a user-facing error message
-    return new ErrorObservable(
-      'Something bad happened; please try again later.');
+    return throwError('Something bad happened; please try again later.');
   };
   
 

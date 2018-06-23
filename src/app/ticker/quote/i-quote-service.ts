@@ -1,5 +1,5 @@
 import { Quote } from "./quote";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 
 export interface IQuoteService {
 

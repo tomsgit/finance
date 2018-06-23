@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Ticker } from './ticker';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
+import { Observable ,  Observer } from 'rxjs';
+import {map} from 'rxjs/operators';
 import { Quote } from 'app/ticker/quote/quote';
 import { IQuoteService } from 'app/ticker/quote/i-quote-service';
 import { LocalQuoteService } from 'app/ticker/quote/local/local-quote.service';
@@ -38,15 +38,17 @@ export class TickerService {
         return ref.where('code', '==', code.toUpperCase());
       })
       .snapshotChanges()
-      .map(actions => {
-        return actions.map(action => {
-
-          let wrapper: TickerWrapper = new TickerWrapper();
-          wrapper.docRef = action.payload.doc.ref;
-          wrapper.ticker = action.payload.doc.data() as Ticker;
-          return wrapper;
+      .pipe(
+        map(actions => {
+          return actions.map(action => {
+  
+            let wrapper: TickerWrapper = new TickerWrapper();
+            wrapper.docRef = action.payload.doc.ref;
+            wrapper.ticker = action.payload.doc.data() as Ticker;
+            return wrapper;
+          })
         })
-      });
+      );
   }
 
   getAllTickers(): Observable<Ticker[]> {

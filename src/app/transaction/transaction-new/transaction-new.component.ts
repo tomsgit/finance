@@ -10,7 +10,7 @@ import { DateUtil } from 'app/core/ngbootstrap/date-util';
 import { NgForm } from '@angular/forms';
 import { TickerService } from 'app/ticker/ticker.service';
 import { Ticker } from 'app/ticker/ticker';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 
 @Component({

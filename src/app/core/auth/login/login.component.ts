@@ -3,6 +3,7 @@ import { AuthService } from '../auth.service';
 import { Login } from './login';
 import { Router } from '@angular/router';
 import { User } from '../user';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -19,12 +20,15 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._authService.authState().map(
-      (user:User) => {
-          if(user && user.uid){
-            this._router.navigate(['/portfolio']);
-          }
-        });
+    this._authService.authState()
+      .pipe(
+        map(
+          (user:User) => {
+              if(user && user.uid){
+                this._router.navigate(['/portfolio']);
+              }
+        })
+      );
     
     this.loginForm=new Login('','');
    

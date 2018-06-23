@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TickerService } from 'app/ticker/ticker.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TickerWrapper } from '../ticker-wrapper';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
 

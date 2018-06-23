@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Portfolio } from '../portfolio';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { PortfolioService } from '../portfolio.service';
 
 @Component({

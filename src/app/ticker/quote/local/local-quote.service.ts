@@ -1,6 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
 import { IQuoteService } from 'app/ticker/quote/i-quote-service';
-import { Observable } from 'rxjs/Observable';
+import { Observable,Observer } from 'rxjs';
+import {map} from 'rxjs/operators';
 import { Quote } from 'app/ticker/quote/quote';
 import { AngularFirestore } from 'angularfire2/firestore';
 
@@ -18,7 +19,11 @@ export class LocalQuoteService implements IQuoteService{
   getLatesQuote(code: string): Observable<Quote>{
     let c=code.toUpperCase();
     if(this.cache && this.cache.has(c)){
-      return Observable.of(this.cache.get(c));
+      return Observable.create(
+        (obs:Observer<Quote>)=>{
+          obs.next(this.cache.get(c));
+        }
+      );
     }
     console.log('cache miss>'+c);
     return this.getLatesQuoteInternal(c);
@@ -32,14 +37,16 @@ export class LocalQuoteService implements IQuoteService{
                                             .limit(1);
                                 })
                             .valueChanges()
-                            .map(quotes =>{
-                              let q:Quote;
-                              if(quotes && quotes.length>0){
-                                q=quotes[0];
-                                this.cache.set(code,q);
-                              }
-                              return q;
-                            });                            
+                            .pipe(
+                              map(quotes =>{
+                                let q:Quote;
+                                if(quotes && quotes.length>0){
+                                  q=quotes[0];
+                                  this.cache.set(code,q);
+                                }
+                                return q;
+                              })
+                            );                            
   }
   
   constructor(private _fireStore:AngularFirestore) {

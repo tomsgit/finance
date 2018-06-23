@@ -4,7 +4,7 @@ import { TransactionService } from '../transaction.service';
 import { ActivatedRoute } from '@angular/router';
 import { Txn } from '../txn';
 import { PortfolioPerf } from '../portfolio-perf';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { TickerService } from 'app/ticker/ticker.service';
 import { Ticker } from 'app/ticker/ticker';
 import { Quote } from "app/ticker/quote/quote";

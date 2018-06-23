@@ -1,7 +1,7 @@
 import { Txn } from "./txn";
 import { TxnType } from "./txn-type.enum";
 import { Ticker } from "app/ticker/ticker";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { Quote } from "app/ticker/quote/quote";
 
@@ -77,7 +77,11 @@ export class PortfolioPerf {
     }
     settle(){
         //sort oldest last
-        this.openTxns.sort((l,r) => l.date.getUTCMilliseconds()>r.date.getUTCMilliseconds()?1:-1);
+        this.openTxns.sort((l,r) => {
+            //console.log("L>"+l.date.constructor.name);
+            //console.log("R>"+r.date.constructor.name);
+            return l.date.getUTCMilliseconds()>r.date.getUTCMilliseconds()?1:-1;
+        });
         let t:Txn;
         while(this.sharesToSettle>0){
             t = this.openTxns.pop();

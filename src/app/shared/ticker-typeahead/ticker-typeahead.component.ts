@@ -1,7 +1,8 @@
 import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Ticker } from 'app/ticker/ticker';
 import { TickerService } from 'app/ticker/ticker.service';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import {map} from 'rxjs/operators';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
@@ -68,22 +69,22 @@ export class TickerTypeaheadComponent implements OnInit {
     return text$
     .pipe(
       debounceTime(200),
-      distinctUntilChanged()
-    )
-    .map(term => {
-      if(term.length < 3){
-        return [];
-      }
-      let q = term.toUpperCase();
-      console.log('ticker search>'+q);
-      return this.tickers
-                  .filter(t =>                     
-                      (t.code.toUpperCase().indexOf(q) > -1) 
-                      || 
-                      (t.name.toUpperCase().indexOf(q) > -1)
-                  )
-                  .slice(0, 10);
-                  //.map(t => t.code);
-    });
+      distinctUntilChanged(),
+      map(term => {
+        if(term.length < 3){
+          return [];
+        }
+        let q = term.toUpperCase();
+        console.log('ticker search>'+q);
+        return this.tickers
+                    .filter(t =>                     
+                        (t.code.toUpperCase().indexOf(q) > -1) 
+                        || 
+                        (t.name.toUpperCase().indexOf(q) > -1)
+                    )
+                    .slice(0, 10);
+                    //.map(t => t.code);
+      })
+    );
   }
 }

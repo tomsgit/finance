@@ -1,7 +1,8 @@
 import { Injectable, Injector } from '@angular/core';
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Portfolio } from './portfolio';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import {map} from 'rxjs/operators';
 import { CollectionReference, QuerySnapshot } from '@firebase/firestore-types';
 import { TransactionService } from './transaction.service';
 import { PortfolioPerf } from './portfolio-perf';
@@ -25,13 +26,15 @@ export class PortfolioService {
     return this._fireStore.collection<Portfolio>(this.collection_portfolio, (query) => {
       return query.orderBy('priority', 'desc');
     }).snapshotChanges()
-      .map(actions => {
-        return actions.map(action => {
-          let p = action.payload.doc.data() as Portfolio;
-          p.id = action.payload.doc.id;
-          return p;
+      .pipe(
+        map(actions => {
+          return actions.map(action => {
+            let p = action.payload.doc.data() as Portfolio;
+            p.id = action.payload.doc.id;
+            return p;
+          })
         })
-      });
+      );
 
   }
 
@@ -56,14 +59,16 @@ export class PortfolioService {
         
     return this._txnService
                       .getPorfolioTransactions(folioId)
-                      .map(wrprs =>{
-                        console.log('Txns size '+wrprs.length);
-                        //folios
-                        let folios:PortfolioPerf[] = this.pushTransactions(wrprs);
-                        //calulate folios
-                        folios.forEach(f => f.settle());
-                        return folios;                            
-                      });
+                      .pipe(
+                        map(wrprs =>{
+                          console.log('Txns size '+wrprs.length);
+                          //folios
+                          let folios:PortfolioPerf[] = this.pushTransactions(wrprs);
+                          //calulate folios
+                          folios.forEach(f => f.settle());
+                          return folios;                            
+                        })
+                      );
                                        
   }
   processFolios(folios:PortfolioPerf[]){

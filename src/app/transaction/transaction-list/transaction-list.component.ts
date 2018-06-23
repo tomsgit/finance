@@ -4,7 +4,8 @@ import { Exchange } from '../exchange.enum';
 import { TxnType } from '../txn-type.enum';
 import { TransactionService } from '../transaction.service';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import {map} from 'rxjs/operators';
 import { Txn } from '../txn';
 import { ActivatedRoute } from '@angular/router';
 import { TxnWrapper } from '../txn-wrapper';
@@ -43,7 +44,7 @@ export class TransactionListComponent implements OnInit {
     this.sortOrder=1;
     this.getTransactions();
     this._portfolioService.getPortfolioList()
-        .map(folioList => folioList.filter(folio => folio.id !== this.folioId))    
+        .pipe(map(folioList => folioList.filter(folio => folio.id !== this.folioId)) )   
         .subscribe(
           folioList => this.portfolioList=folioList,
           err => console.error('err getting portfoliolist'+err.message),
@@ -53,12 +54,15 @@ export class TransactionListComponent implements OnInit {
   getTransactions(){
     console.log('Retrieving txns for folioId>'+this.folioId);
       this._txnService.getPorfolioTransactions(this.folioId)
-                            .map(wrprs => {
+                            .pipe(
+                              map(wrprs => {
                                 return wrprs.map(wrpr =>{
                                     this._txnService.compute(wrpr.txn);                                 
                                     return wrpr;
                                 });
-                            }).subscribe(
+                              })
+                            )
+                            .subscribe(
                               result =>{
                                   this.transactions=result;
                                   console.log('Got Values');

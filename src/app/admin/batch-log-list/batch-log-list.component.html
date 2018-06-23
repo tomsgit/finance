@@ -23,7 +23,7 @@
     <tbody>
       
       <tr *ngFor="let log of logs$ | async">
-        <th scope="row">{{log.date|date:'medium'}}</th>
+        <th scope="row">{{log.date.toDate()|date:'medium'}}</th>
         <td>{{log.status}}</td>
       </tr>
       

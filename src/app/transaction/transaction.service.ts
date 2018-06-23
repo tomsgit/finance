@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable ,  Subscriber ,  Observer } from 'rxjs';
+import {map} from 'rxjs/operators';
 import { Txn } from './txn';
 import { Broker } from './broker.enum';
 import { Exchange } from './exchange.enum';
 import { TxnType } from './txn-type.enum';
-import { Subscriber } from 'rxjs/Subscriber';
-import { Observer } from 'rxjs/Observer';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { PortfolioService } from './portfolio.service';
-import { DocumentReference } from '@firebase/firestore-types';
+import { firestore } from 'firebase/app';
 import { TxnWrapper } from './txn-wrapper';
 
 @Injectable()
@@ -43,14 +42,16 @@ export class TransactionService {
         .collection(this.collection_txns)
         .doc(txnId)
         .snapshotChanges()
-        .map(action => {
+        .pipe(
+          map(action => {
 
-          let wrapper:TxnWrapper = new TxnWrapper();
-          wrapper.docRef=action.payload.ref;
-          wrapper.txn=action.payload.data() as Txn;          
-          return wrapper;
-          
-        });
+            let wrapper:TxnWrapper = new TxnWrapper();
+            wrapper.docRef=action.payload.ref;
+            wrapper.txn=action.payload.data() as Txn;          
+            return wrapper;
+            
+          })
+        );
 
   }
   getPorfolioTransactions(porfolioId:string):Observable<TxnWrapper[]>{
@@ -60,16 +61,18 @@ export class TransactionService {
                   return ref.orderBy('date','desc');
                 })
                 .snapshotChanges()
-                .map(actions => {
+                .pipe(
+                  map(actions => {
 
-                  return actions.map(action => {
-                    
-                    let wrapper:TxnWrapper = new TxnWrapper();
-                    wrapper.docRef=action.payload.doc.ref;
-                    wrapper.txn=action.payload.doc.data() as Txn;         
-                    return wrapper;
+                    return actions.map(action => {
+                      
+                      let wrapper:TxnWrapper = new TxnWrapper();
+                      wrapper.docRef=action.payload.doc.ref;
+                      wrapper.txn=action.payload.doc.data() as Txn;         
+                      return wrapper;
+                    })
                   })
-                });
+                );
     
   }
   
@@ -81,8 +84,20 @@ export class TransactionService {
     });
   }
   compute(txn:Txn){
-    //date object comes as string!!! Convert to Date
-    txn.date=new Date(txn.date);
+   
+    //console.log('DAte' +txn.date);
+    
+    
+ 
+    if(txn.date instanceof firestore.Timestamp){
+      let ts:firestore.Timestamp=txn.date;
+      txn.date=ts.toDate();
+      //console.log('computeT>>>' +txn.date.constructor.name);
+    }else{
+       //date object comes as string!!! Convert to Date
+      txn.date=new Date(txn.date);
+    }
+    console.log('compute' +txn.date.constructor.name);
       //console.log('computing value');
       let val:number=0;
       if(txn.price && txn.shares){

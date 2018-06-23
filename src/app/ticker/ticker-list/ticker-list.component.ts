@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TickerService } from 'app/ticker/ticker.service';
 
 import { Ticker } from 'app/ticker/ticker';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-ticker-list',
