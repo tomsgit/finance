@@ -30,7 +30,7 @@
   <ticker-typeahead (selection)="setTicker($event)"></ticker-typeahead>
 <div class="form-group">
   <label for="type">Script</label>    
-  <input type="text" required readonly minlength="3" [(ngModel)]="txn.code" class="form-control" name="script" id="script" placeholder="NSE script code">    
+  <input type="text" required readonly minlength="2" [(ngModel)]="txn.code" class="form-control" name="script" id="script" placeholder="NSE script code">    
 </div>
 <div class="form-group">
     <label for="type">Name</label>    
