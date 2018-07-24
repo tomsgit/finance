@@ -12,6 +12,7 @@ import { tap } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
 import { TxnWrapper } from '../txn-wrapper';
 import { Ticker } from 'app/ticker/ticker';
+import { firestore } from 'firebase';
 
 
 @Component({
@@ -64,9 +65,16 @@ export class TransactionDetailComponent implements OnInit {
   
   compute(t:Txn):void{
     
+   
+    if(t.date instanceof firestore.Timestamp){
+      let ts:firestore.Timestamp=t.date;
+      t.date=ts.toDate();
+      //console.log('computeT>>>' +txn.date.constructor.name);
+    }else{
+       //date object comes as string!!! Convert to Date
+      t.date=new Date(t.date);
+    }
     this.txn=t;
-    //date object comes as string!!! Convert to Date
-    this.txn.date=new Date(this.txn.date);
     this._date = this._dateUtil.toNgbDateStruct( this.txn.date);
   }
   get date():NgbDateStruct{     
@@ -82,6 +90,7 @@ export class TransactionDetailComponent implements OnInit {
     console.log('saving');
     this.saving=true;
     this._txnWrapper.txn=this.txn;
+    console.log("<>>>"+this.txn.date);
     this._txnService.saveTransaction(this._txnWrapper)
           .then(
             (result) =>{
