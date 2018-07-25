@@ -10,6 +10,8 @@ import { Ticker } from 'app/ticker/ticker';
 import { Quote } from "app/ticker/quote/quote";
 import { PortfolioService } from '../portfolio.service';
 import { tap } from 'rxjs/operators';
+import { Trend } from '../trend';
+import { PortfolioTrendsService } from '../portfolio-trends.service';
 
 @Component({
   selector: 'app-portfolio-performance',
@@ -31,7 +33,7 @@ export class PortfolioPerformanceComponent implements OnInit {
   _nameWidthMax:number;
   _nameWidthMin:number;
   isExpanded:boolean;
-  constructor(private _portfolioService:PortfolioService,private route: ActivatedRoute, private _tickerService: TickerService,private cdr: ChangeDetectorRef) { 
+  constructor( private _trendService:PortfolioTrendsService,private _portfolioService:PortfolioService,private route: ActivatedRoute, private _tickerService: TickerService,private cdr: ChangeDetectorRef) { 
     this._tickerCache=new Map<string,Ticker>();
     this._quotes=new Map<string,Quote>();
     this.folios=[];
@@ -47,10 +49,43 @@ export class PortfolioPerformanceComponent implements OnInit {
     this.folioId = this.route.snapshot.parent.params['folioId'];  
     this.getPortfolioData();
     //this.getTickerData();
+    this.waitAndLogTotals();
   
   }
+
+  async waitAndLogTotals(){
+    
+    let a:number = await this.delay(5000);
+    let trend:Trend = new Trend();
+    trend.date=new Date();
+    trend.cost=this.tcost;
+    trend.value=this.tvalue;
+
+    trend.delta=this.tchange;
+    trend.deltapercent=this.tchangePercent;
+
+    trend.gain=this.tgain;
+    trend.gainpercent=this.tgainpercent;
+    this._trendService.saveTrend(trend,this.folioId) .then(
+      (result) =>{
+        console.log('Saved document'+result);
+       
+      },
+      (error) =>{
+        console.log('error saving : '+error.message);
+        
+      }
+
+    )
+  }
+  
+  delay(ms:number):Promise<number>{
+    let a:Promise<number> = new Promise((value)=>setTimeout(value,ms));
+    
+    return a;
+  }
   get nameWidth(){
-    console.log('name width');
+   // console.log('name width');
     return this._nameWidth+'%';
   }
   incrNameWidth(){
@@ -69,6 +104,7 @@ export class PortfolioPerformanceComponent implements OnInit {
                           folioList.forEach(
                             folio =>{
                               this.getQuote(folio);
+                              //console.log('folio processed'+folio.code);
                             }
                           );
                         })
@@ -76,6 +112,7 @@ export class PortfolioPerformanceComponent implements OnInit {
                         data => {
                           this.folios=data;
                           this.sort('value');
+                          
                         },
                         err => console.error('error doing portfolio'+err.message),
                         () => console.log('calc portfolio complete')
@@ -108,17 +145,18 @@ export class PortfolioPerformanceComponent implements OnInit {
     let q$=this._tickerService.getLatestQuote(p.code);
     q$.subscribe(
         q =>{
-            //console.log('quote obtained'+p.code);
+           
             p.quote=q;
             this.doTotals(p)
             this.cdr.markForCheck();
+            //console.log('quote obtained'+p.code);
             
         },
         (error)=>{
             console.error('error in quote>'+error.code +' : '+ error.message);
         },
         ()=>{
-          //console.log('Completed the quote service');
+          console.log('Completed the quote service');
         }
     );
   }
@@ -212,4 +250,5 @@ export class PortfolioPerformanceComponent implements OnInit {
     //console.log(this.sortOrder+' LEFT>'+l.changePercent+' RIGHT>'+l.changePercent+'o/p>'+o);
     //return o;
   }
+  
 }

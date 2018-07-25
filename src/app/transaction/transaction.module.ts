@@ -25,6 +25,7 @@ import { TransactionRoutingModule } from './transaction-routing.module';
 import { NewTransactionComponent } from './transaction-new/transaction-new.component';
 import { CoreModule } from '../core/core.module';
 import { SharedModule } from '../shared/shared.module';
+import { PortfolioTrendsService } from './portfolio-trends.service';
 
 
 
@@ -54,7 +55,8 @@ import { SharedModule } from '../shared/shared.module';
   ],
   providers: [
     TransactionService,
-    PortfolioService
+    PortfolioService,
+    PortfolioTrendsService
   ]
 })
 export class TransactionModule { }
