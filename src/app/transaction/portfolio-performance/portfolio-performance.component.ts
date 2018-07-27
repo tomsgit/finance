@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { Portfolio } from '../portfolio';
 import { TransactionService } from '../transaction.service';
 import { ActivatedRoute } from '@angular/router';
@@ -33,6 +33,17 @@ export class PortfolioPerformanceComponent implements OnInit {
   _nameWidthMax:number;
   _nameWidthMin:number;
   isExpanded:boolean;
+  @ViewChild('chart') chart: ElementRef;
+  @ViewChild('grid') grid: ElementRef;
+
+  showChart(){
+    let el:HTMLElement = <HTMLElement>this.chart.nativeElement;
+    el.scrollIntoView({behavior:"smooth"});
+  }
+  showGrid(){
+    let el:HTMLElement = <HTMLElement>this.grid.nativeElement;
+    el.scrollIntoView({behavior:"smooth"});
+  }
   constructor( private _trendService:PortfolioTrendsService,private _portfolioService:PortfolioService,private route: ActivatedRoute, private _tickerService: TickerService,private cdr: ChangeDetectorRef) { 
     this._tickerCache=new Map<string,Ticker>();
     this._quotes=new Map<string,Quote>();
@@ -50,9 +61,10 @@ export class PortfolioPerformanceComponent implements OnInit {
     this.getPortfolioData();
     //this.getTickerData();
     this.waitAndLogTotals();
+    
   
   }
-
+  
   async waitAndLogTotals(){
     
     let a:number = await this.delay(5000);
@@ -66,17 +78,7 @@ export class PortfolioPerformanceComponent implements OnInit {
 
     trend.gain=this.tgain;
     trend.gainpercent=this.tgainpercent;
-    this._trendService.saveTrend(trend,this.folioId) .then(
-      (result) =>{
-        console.log('Saved document'+result);
-       
-      },
-      (error) =>{
-        console.log('error saving : '+error.message);
-        
-      }
-
-    )
+    this._trendService.saveTrend(trend,this.folioId);
   }
   
   delay(ms:number):Promise<number>{

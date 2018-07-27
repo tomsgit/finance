@@ -97,7 +97,7 @@ export class TransactionService {
        //date object comes as string!!! Convert to Date
       txn.date=new Date(txn.date);
     }
-    console.log('compute' +txn.date.constructor.name);
+    //console.log('compute' +txn.date.constructor.name);
       //console.log('computing value');
       let val:number=0;
       if(txn.price && txn.shares){

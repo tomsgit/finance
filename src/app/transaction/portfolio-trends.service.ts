@@ -36,7 +36,9 @@ export class PortfolioTrendsService {
               trend=action.payload.doc.data() as Trend;
               if(trend.date instanceof firestore.Timestamp){
                 let ts:firestore.Timestamp=trend.date;
-                trend.date=ts.toDate();   
+                trend.date=new Date(ts.toDate());   
+              }else{
+                trend.date=new Date(trend.date);
               }
                     
               return trend;
@@ -44,18 +46,47 @@ export class PortfolioTrendsService {
           })
         );
   }
-  saveTrend(trend:Trend,porfolioId:string ):Promise<any>{
+  saveTrend(trend:Trend,porfolioId:string ):void{
     
-    return this._portfolioService.getPortfolioRef(porfolioId)
-        .collection<Trend>(this.collection_trends)
-        .add(JSON.parse(JSON.stringify(trend)))
-        .then(
-          (value) =>{
-            return value.id;
-          },
-          (reason) =>{
-            return reason;
+    let pref = this._portfolioService.getPortfolioRef(porfolioId);
+    
+    
+    let today:Date=new Date();
+    today.setHours(0,0,0,0);
+    console.log(today);
+
+    //is trend already saved for the day?
+    pref.collection<Trend>(this.collection_trends, ref=>ref.where("date",">=",today))
+      .valueChanges()
+      .subscribe(
+        data => {
+          console.log('trend for today'+data.length)
+          data.forEach(t=>{
+            console.log(t.date);
+          });
+          if(data && data.length > 0){
+            //do nothing
+            console.log("trend already exists");
+            
+          }else{
+            console.log("saving trend");
+            
+            return pref
+            .collection<Trend>(this.collection_trends)
+            .add(Trend.toObject(trend))
+            .then(
+              (value) =>{
+                console.log('saved trend'+value.id) ;
+              },
+              (reason) =>{
+                console.log('save trend failed'+reason) ;
+              }
+          );
           }
-        );
+        }
+      );
+
+    
+     
   }
 }

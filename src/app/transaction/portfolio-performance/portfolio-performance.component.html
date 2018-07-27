@@ -1,4 +1,8 @@
 <page-title [title]="title"></page-title>
+
+
+
+<button id="grid" #grid type="button" (click)="showChart()" class="btn btn-dark float-right">View Chart</button>
 <table class="table table-bordered table-striped table-sm">
   <thead class="thead-dark">
     <tr>
@@ -89,3 +93,9 @@
       
     </tbody>
   </table>
+  <div id="chart" #chart>
+      <button type="button" (click)="showGrid()" class="btn btn-dark float-right">View Grid</button>
+      <portfolio-trends ></portfolio-trends>
+  </div>
+  
+  
