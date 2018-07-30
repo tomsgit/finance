@@ -210,6 +210,11 @@ export class PortfolioPerformanceComponent implements OnInit {
         comparator=this.gainSorter;
         break;
       }
+      case'gainpercent':{
+        comparator=this.gainPercentSorter;
+        break;
+      }
+      
       
       case'code':{
         comparator=this.codeSorter;
@@ -239,6 +244,10 @@ export class PortfolioPerformanceComponent implements OnInit {
   gainSorter=(l:PortfolioPerf,r:PortfolioPerf)=>{
     
     return this.sortOrder*(l.gain>r.gain?1:-1);
+  }
+  gainPercentSorter=(l:PortfolioPerf,r:PortfolioPerf)=>{
+    
+    return this.sortOrder*(l.gainPercent>r.gainPercent?1:-1);
   }
   deltaSorter=(l:PortfolioPerf,r:PortfolioPerf)=>{
     
