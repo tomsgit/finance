@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { PortfolioTrendsService } from 'app/transaction/portfolio-trends.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -19,10 +19,11 @@ export class PortfolioTrendsComponent implements OnInit {
   chart_value:number[];
   chart_profit:number[];
   chart_painted:boolean;
-  folioId:string;
+  @Input() folioId:string;
 
   ngOnInit() {
-    this.folioId = this.route.snapshot.parent.params['folioId'];
+    //this.folioId = this.route.snapshot.parent.params['folioId'];
+    //console.log("folioId"+this.folioId);
     this.performanceLog();
   }
   
@@ -41,9 +42,9 @@ export class PortfolioTrendsComponent implements OnInit {
             
             //this.chart_dates.push(trend.date.toLocaleDateString("en-IN",options));
             this.chart_dates.push(trend.date.toISOString());
-            this.chart_cost.push(+trend.cost.toFixed(2));
-            this.chart_value.push(+trend.value.toFixed(2));
-            this.chart_profit.push(+trend.gain.toFixed(2));
+            this.chart_cost.push(+(trend.cost/100000).toFixed(2));
+            this.chart_value.push(+(trend.value/100000).toFixed(2));
+            this.chart_profit.push(+(trend.gain/1000).toFixed(2));
           });
          if(this.chart){
           this.chart.update();
@@ -111,10 +112,12 @@ export class PortfolioTrendsComponent implements OnInit {
           time: {
             unit: 'day'
           }
+
         }],
         yAxes: [{
           type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
           display: true,
+          scaleLabel:{labelString:'Topline (Lakhs)',display:true},
           position: 'left',
           id: 'topline',
         },
@@ -123,6 +126,7 @@ export class PortfolioTrendsComponent implements OnInit {
           display: true,
           position: 'right',
           id: 'bottomline',
+          scaleLabel:{labelString:'Bottomline (000)',display:true},
           // grid line settings
           gridLines: {
             drawOnChartArea: false, // only want the grid lines for one axis to show up
