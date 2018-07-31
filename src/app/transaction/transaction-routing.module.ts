@@ -8,6 +8,7 @@ import { PortfolioPerformanceComponent } from 'app/transaction/portfolio-perform
 import { TransactionListComponent } from 'app/transaction/transaction-list/transaction-list.component';
 import { TransactionDetailComponent } from 'app/transaction/transaction-detail/transaction-detail.component';
 import { NewTransactionComponent } from './transaction-new/transaction-new.component';
+import { NewPortfolioComponent } from './portfolio-new/portfolio-new.component';
 
 
 const routes:Routes = [
@@ -16,13 +17,15 @@ const routes:Routes = [
     canActivate:[AuthRouteGuardService],
     children:[
       {path:'',component:PortfolioListComponent},
+      {path:'newfolio',component:NewPortfolioComponent},
       {path:':folioId',component:PortfolioContainerChildComponent,
         children:[
             {path:'',pathMatch: 'full', redirectTo: 'perf'},
             {path:'perf',component:PortfolioPerformanceComponent},
             {path:'txns',component:TransactionListComponent},
             {path:'txns/:txnId',component:TransactionDetailComponent},
-            {path:'newtxn',component:NewTransactionComponent},           
+            {path:'newtxn',component:NewTransactionComponent}
+                       
         ]
       },
     ]

@@ -27,6 +27,7 @@ import { CoreModule } from '../core/core.module';
 import { SharedModule } from '../shared/shared.module';
 import { PortfolioTrendsService } from './portfolio-trends.service';
 import { PortfolioTrendsComponent } from './portfolio-trends/portfolio-trends.component';
+import { NewPortfolioComponent } from './portfolio-new/portfolio-new.component';
 
 
 
@@ -53,7 +54,8 @@ import { PortfolioTrendsComponent } from './portfolio-trends/portfolio-trends.co
     TransactionDetailComponent,
     PortfolioContainerChildComponent,
     PortfolioContainerRootComponent,
-    PortfolioTrendsComponent
+    PortfolioTrendsComponent,
+    NewPortfolioComponent
   ],
   providers: [
     TransactionService,

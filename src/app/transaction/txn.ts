@@ -19,6 +19,10 @@ export class Txn {
     broker:Broker;
     value:number;
 
-    
+    static toObject(inp:Txn):any{
+        let obj:any = JSON.parse(JSON.stringify(inp));
+        obj.date=inp.date;
+        return obj;
+    }
     
 }

@@ -4,13 +4,27 @@
   </ol>
 </nav>
 <page-title [title]="title"></page-title>
-<div class="list-group">
-  <button type="button" 
-    *ngFor="let folio of portfolioList$| async" class="list-group-item list-group-item-action flex-column align-items-start"
-    [routerLink]="['/portfolio',folio.id]">
-    <div class="d-flex w-100 justify-content-between">
-      <h5 class="mb-1">{{folio.name}}</h5>      
+
+<div class="container">
+    <div class="row ">
+        <div class="col">
+            <button id="newfolio" type="button" routerLink="newfolio" routerLinkActive="active" class="btn btn-dark float-right">Add Portfolio</button>
+          </div>      
     </div>
-    <p class="mb-1">{{folio.description}}</p>
-  </button>
+    <div class="row">
+        <div class="col list-group">
+            <button type="button" 
+              *ngFor="let folio of portfolioList$| async" class="list-group-item list-group-item-action flex-column align-items-start"
+              [routerLink]="['/portfolio',folio.id]">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{folio.name}}</h5>      
+              </div>
+              <p class="mb-1">{{folio.description}}</p>
+            </button>
+          </div>      
+    </div>    
 </div>
+
+  
+  
+

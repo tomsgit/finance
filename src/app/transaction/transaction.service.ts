@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable ,  Subscriber ,  Observer } from 'rxjs';
-import {map} from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 import { Txn } from './txn';
 import { Broker } from './broker.enum';
 import { Exchange } from './exchange.enum';
@@ -12,6 +12,21 @@ import { TxnWrapper } from './txn-wrapper';
 
 @Injectable()
 export class TransactionService {
+  batchSave(targetFolio:string,txns:Txn[]): any {
+    
+    let colref = this._portfolioService
+        .getPortfolioRef(targetFolio)
+        .collection(this.collection_txns);
+    let batch = this._fireStore.firestore.batch();     
+    txns.forEach(txn =>{
+
+      batch.set(colref.doc(txn.code.toLocaleLowerCase()).ref,Txn.toObject(txn));
+      
+    });
+    batch.commit();
+        
+        
+  }
 
   deleteTxn(w:TxnWrapper): any {
     w.docRef.delete();
@@ -71,6 +86,9 @@ export class TransactionService {
                       wrapper.txn=action.payload.doc.data() as Txn;         
                       return wrapper;
                     })
+                  }),
+                  tap(txns =>{
+                    this._portfolioService.updateTxnCount(txns.length,porfolioId);
                   })
                 );
     

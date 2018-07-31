@@ -9,7 +9,7 @@ import { TickerService } from 'app/ticker/ticker.service';
 import { Ticker } from 'app/ticker/ticker';
 import { Quote } from "app/ticker/quote/quote";
 import { PortfolioService } from '../portfolio.service';
-import { tap } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 import { Trend } from '../trend';
 import { PortfolioTrendsService } from '../portfolio-trends.service';
 
@@ -20,6 +20,7 @@ import { PortfolioTrendsService } from '../portfolio-trends.service';
   styleUrls: ['./portfolio-performance.component.css']
 })
 export class PortfolioPerformanceComponent implements OnInit {
+  
   
   title:string;
   //private folios$:Observable<PortfolioPerf[]>;
@@ -33,6 +34,12 @@ export class PortfolioPerformanceComponent implements OnInit {
   _nameWidthMax:number;
   _nameWidthMin:number;
   isExpanded:boolean;
+  copyTarget:string;
+  snapshotError:string;
+  targetList:Portfolio[];
+
+
+  
   @ViewChild('chart') chart: ElementRef;
   @ViewChild('grid') grid: ElementRef;
 
@@ -51,7 +58,8 @@ export class PortfolioPerformanceComponent implements OnInit {
     this._nameWidthMin=10;
     this._nameWidthMax=20;
     this._nameWidth=this._nameWidthMin;
-    this.isExpanded=false;       
+    this.isExpanded=false;
+    this.copyTarget="";       
   }
   
   ngOnInit() {
@@ -60,6 +68,7 @@ export class PortfolioPerformanceComponent implements OnInit {
     this.folioId = this.route.snapshot.parent.params['folioId'];  
     this.getPortfolioData();
     //this.getTickerData();
+    this.loadSnapshotTargets();
     this.waitAndLogTotals();
     
   
@@ -261,5 +270,25 @@ export class PortfolioPerformanceComponent implements OnInit {
     //console.log(this.sortOrder+' LEFT>'+l.changePercent+' RIGHT>'+l.changePercent+'o/p>'+o);
     //return o;
   }
-  
+  loadSnapshotTargets(): any {
+    this._portfolioService.getPortfolioList()
+        .pipe(map(folioList => folioList.filter(folio => folio.id !== this.folioId)) )   
+        .subscribe(
+          folioList => {
+            console.log('targetList>>>'+folioList.length);
+            this.targetList=folioList;
+          },
+          err => console.error('err getting portfoliolist'+err.message),
+          () => console.log('completed getting portfoliolist')
+        );
+  }
+  createSnapShot():void{
+    this.snapshotError='';
+    if(this.copyTarget==''){
+      this.snapshotError="Select the target portfolio"
+      return;
+    }
+    console.log(this.copyTarget);
+    this._portfolioService.createPortfolioSnapshot(this.copyTarget,this.folios);
+  }
 }

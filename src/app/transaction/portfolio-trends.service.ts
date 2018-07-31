@@ -23,7 +23,7 @@ export class PortfolioTrendsService {
     return this._portfolioService
         .getPortfolioRef(porfolioId)
         .collection(this.collection_trends,ref=>{
-          return ref.orderBy('date','desc');
+          return ref.orderBy('date','desc').limit(100);
         })
         .snapshotChanges()
         .pipe(

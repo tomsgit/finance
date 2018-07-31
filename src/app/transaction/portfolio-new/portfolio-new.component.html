@@ -1,0 +1,36 @@
+<page-title [title]="title"></page-title>
+<form #f1="ngForm" (ngSubmit)="addPortfolio()" novalidate>
+  
+  
+  <div class="form-group">
+      <label for="type">Name</label>    
+      <input type="text" required minlength="3" [(ngModel)]="folio.name" class="form-control" name="shares" id="shares" placeholder="Name">    
+  </div>
+  <div class="form-group">
+      <label for="type">Description</label>    
+      <input type="text" required minlength="3" [(ngModel)]="folio.description" class="form-control" name="shares" id="shares" placeholder="Description">    
+  </div>
+
+  <div class="form-group">
+      <label for="type">Priority</label>    
+      <input type="number" required maxlength="1" [(ngModel)]="folio.priority" class="form-control" name="price" id="price" placeholder="Priority">    
+  </div>
+  
+  
+  
+  <ng-container *ngIf="saving;else button">
+      Saving...
+  </ng-container>
+  <ng-template #button>
+    <button type="submit" [disabled]="f1.invalid" class="btn btn-success">Add Portfolio</button>
+  </ng-template>
+  
+  <br>
+  {{folio|json}}
+  <div class="alert alert-danger fade show" style="margin-top:1rem" role="alert" *ngIf="error">
+    {{error}}
+  </div>
+  <div class="alert alert-danger fade show" style="margin-top:1rem" role="alert" *ngIf="f1.invalid && f1.touched">
+    Errors on form!
+  </div>
+</form>

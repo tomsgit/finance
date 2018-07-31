@@ -8,9 +8,55 @@ import { TransactionService } from './transaction.service';
 import { PortfolioPerf } from './portfolio-perf';
 import { Txn } from './txn';
 import { TxnWrapper } from './txn-wrapper';
+import { Broker } from './broker.enum';
+import { Exchange } from './exchange.enum';
+import { TxnType } from './txn-type.enum';
 
 @Injectable()
 export class PortfolioService {
+  updateTxnCount(txnCount: number, portfolioId:string): any {
+    this._fireStore.collection<Portfolio>(this.collection_portfolio)
+            .doc<Portfolio>(portfolioId)
+            .update({'txncount':txnCount})
+            .then(()=>{
+              console.log('count updated');
+            });
+  }
+  
+  createPortfolioSnapshot(targetFolio: string, snapShot: PortfolioPerf[]): any {
+    //check if target is empty folio
+    this.getPortfolio(targetFolio).subscribe(
+      (folio)=>{
+        console.log('folio txn count'+folio.txncount);
+        if(folio.txncount && folio.txncount >0){
+          console.log('folio is not empty');
+        }else{
+          console.log('create txns');
+          let txns:Txn[] = [];
+          snapShot.forEach(
+            item => {
+              let  t:Txn = new Txn();
+              t.broker=Broker.ZERODHA;
+              t.code = item.code;
+              t.commission=0;
+              t.date=new Date();
+              t.exchange=Exchange.NSE;
+              t.name=item.name;
+              t.price=item.currentPrice;
+              t.shares=item.shares;
+              t.type=TxnType.BUY;
+              t.value=item.currentValue;
+              txns.push(t);
+              this._txnService.batchSave(targetFolio,txns);
+
+            }
+          );
+        }
+      }
+    );
+
+    //batch write transactions
+  }
 
   private readonly collection_portfolio: string;
 
@@ -94,5 +140,23 @@ export class PortfolioService {
     });
     return Array.from(folio.values());
   }
+
+  addFolio(folio:Portfolio):Promise<any>{
+
+    
+    return this._fireStore.collection<Portfolio>(this.collection_portfolio)
+       
+        .add(Portfolio.toObject(folio))
+        .then(
+          (value) =>{
+            return value.id;
+          },
+          (reason) =>{
+            return reason;
+          }
+        );
+   
+  }
+
 
 }

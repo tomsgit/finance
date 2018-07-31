@@ -2,6 +2,7 @@
 
 
 
+
 <button id="grid" #grid type="button" (click)="showChart()" class="btn btn-dark float-right">View Chart</button>
 <table class="table table-bordered table-striped table-sm">
   <thead class="thead-dark">
@@ -93,9 +94,32 @@
       
     </tbody>
   </table>
+  <div id="snapshot" #snapshot class="container jumbotron">
+      <h2 class="display-4">SnapShot</h2>
+      <p class="lead">Create a snapshot of this portfolio in the target portfolio with current price as purchase price </p>
+      <div class="row ">
+          <div class="col">
+              
+              <select id="copyTarget" class="form-control" [(ngModel)]='copyTarget' [class.is-invalid] ="copyTarget==''">
+                  <option value="" selected="true">Target Portfolio</option>
+                  <option *ngFor="let target of targetList" [value]="target.id">{{target.name}}</option>
+              </select>
+          </div>
+          <div class="col">
+              <button type="button" (click)="createSnapShot()" class="btn btn-dark">Create Snapshot</button>
+          </div>
+          <div class="col">
+              {{snapshotError}}
+          </div>     
+      </div>
+         
+  </div>
+  <br>
   <div id="chart" #chart>
       <button type="button" (click)="showGrid()" class="btn btn-dark float-right">View Grid</button>
       <portfolio-trends [folioId]=folioId></portfolio-trends>
   </div>
+
+  
   
   
