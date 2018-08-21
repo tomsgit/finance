@@ -87,7 +87,29 @@ export class PortfolioPerformanceComponent implements OnInit {
 
     trend.gain=this.tgain;
     trend.gainpercent=this.tgainpercent;
-    this._trendService.saveTrend(trend,this.folioId);
+    let isTrendValid:boolean =false;
+    let logTrendForToday:boolean =false;
+    if(trend.cost >0 && trend.value>0){
+      isTrendValid=true;
+    }else{
+      console.log("totals not done. skipping trend setting");
+    }
+    console.log("Hours > "+trend.date.getHours());
+    console.log("Minutes > "+trend.date.getMinutes());
+    if(trend.date.getHours() >18){
+      logTrendForToday=true;
+      console.log("after 7 PM");
+    }else if((trend.date.getHours() ==18) && (trend.date.getMinutes()>30)){
+      logTrendForToday=true;
+      console.log("after 6:30 PM");
+    }
+    
+    if(logTrendForToday && isTrendValid){
+      this._trendService.saveTrend(trend,this.folioId);
+    }
+      
+    
+    
   }
   
   delay(ms:number):Promise<number>{
