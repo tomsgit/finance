@@ -215,7 +215,7 @@ export class PortfolioPerformanceComponent implements OnInit {
     this.tgain+=p.gain;
     this.tgainpercent=this.tgain*100/this.tcost;
 
-    this.tchange+=(p.change*p.shares);
+    this.tchange+=(p.change);
     this.tchangePercent=this.tchange*100/this.tcost;
     //console.log('tcost'+this.tcost+'|tvalue'+this.tvalue+'|tgain'+this.tgain+'|tgainpercent'+this.tgainpercent+'|tchange'+this.tchange+'|tchangePercent'+this.tchangePercent);
   }

@@ -35,8 +35,8 @@ export class PortfolioPerf {
                 //console.log('set quote close'+q.close);
                 this.currentPrice=q.close;
                 this.currentValue=this.currentPrice*this.shares;
-                this.change=q.close-q.prevclose;
-                this.changePercent=this.change*100/q.last;
+                this.change=(q.close-q.prevclose)*this.shares;
+                this.changePercent=(q.close-q.prevclose)*100/q.last;
                 this.gain=(this.currentPrice*this.shares)-this.costValue;
                 this.gainPercent=this.gain*100/this.costValue;
 
