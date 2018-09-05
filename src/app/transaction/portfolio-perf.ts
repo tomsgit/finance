@@ -88,7 +88,7 @@ export class PortfolioPerf {
         let t:Txn;
         while(this.sharesToSettle>0){
             t = this.openTxns.pop();
-            console.log(this.name+ '>pop>'+t.date+'shares>'+t.shares+'price>'+t.price);
+            //console.log(this.name+ '>pop>'+t.date+'shares>'+t.shares+'price>'+t.price);
             if(this.sharesToSettle < t.shares){
                 let ratioOfSplit = this.sharesToSettle/t.shares;
                 //clone
@@ -113,7 +113,7 @@ export class PortfolioPerf {
         //calculate settled
         this.settledTxns.forEach(t => this.consolidateSettledTxn(t));
 
-        this.diagnostics();
+        //this.diagnostics();
     }
     diagnostics(){
         console.log('-------START----------<'+this.name+'>---------------------------');
