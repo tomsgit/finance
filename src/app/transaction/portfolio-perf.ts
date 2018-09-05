@@ -80,12 +80,15 @@ export class PortfolioPerf {
         this.openTxns.sort((l,r) => {
             //console.log("L>"+l.date.constructor.name);
             //console.log("R>"+r.date.constructor.name);
-            return l.date.getUTCMilliseconds()>r.date.getUTCMilliseconds()?1:-1;
+            return l.date>r.date?-1:1;
         });
+       // this.openTxns.forEach(t=>{
+       //     console.log("ddbug"+t.name+">"+t.date);
+        //})
         let t:Txn;
         while(this.sharesToSettle>0){
             t = this.openTxns.pop();
-            //console.log(this.name+ '>pop>'+t.date+'shares>'+t.shares+'price>'+t.price);
+            console.log(this.name+ '>pop>'+t.date+'shares>'+t.shares+'price>'+t.price);
             if(this.sharesToSettle < t.shares){
                 let ratioOfSplit = this.sharesToSettle/t.shares;
                 //clone
@@ -110,7 +113,7 @@ export class PortfolioPerf {
         //calculate settled
         this.settledTxns.forEach(t => this.consolidateSettledTxn(t));
 
-        //this.diagnostics();
+        this.diagnostics();
     }
     diagnostics(){
         console.log('-------START----------<'+this.name+'>---------------------------');
