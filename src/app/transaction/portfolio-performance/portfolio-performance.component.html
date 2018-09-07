@@ -80,7 +80,11 @@
       </tr>
     </thead>
     <tbody>
-      
+      <tr class="table-warning">
+        <th scope="row" colspan="2">Total</th>
+        <td>{{trealised | number:'1.0-2'}}</td>
+        
+      </tr>
        <ng-template ngFor let-item [ngForOf]="folios">
           <tr *ngIf="item.settledTxns.length >0">
               <th scope="row">{{item.code}}</th>
@@ -88,7 +92,11 @@
               <td>{{item.realised |number:'1.0-2'}}</td>
             </tr>
        </ng-template>
-      
+       <tr class="table-warning">
+        <th scope="row" colspan="2">Total</th>
+        <td>{{trealised | number:'1.0-2'}}</td>
+        
+      </tr>
   
       
       

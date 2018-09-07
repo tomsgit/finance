@@ -137,6 +137,7 @@ export class PortfolioPerformanceComponent implements OnInit {
                           folioList.forEach(
                             folio =>{
                               this.getQuote(folio);
+                              this.trealised+=folio.realised;
                               //console.log('folio processed'+folio.code);
                             }
                           );
@@ -200,6 +201,7 @@ export class PortfolioPerformanceComponent implements OnInit {
   tgainpercent:number=0;
   tchange:number=0;
   tchangePercent:number=0;
+  trealised:number=0;
   doTotals(p:PortfolioPerf){
     if(p.shares ==0){
       //console.log('0 shares> skipping totalling for '+p.code)
