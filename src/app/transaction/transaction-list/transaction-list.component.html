@@ -1,4 +1,9 @@
 <page-title [title]="title"></page-title>
+<ticker-typeahead [label]="filterLabel" (selection)="setFilter($event)"></ticker-typeahead>
+
+<p *ngIf="filter">
+  <ngb-alert [type]="secondary" (close)="clearFilter(filter)">{{ filter.name }}</ngb-alert>
+</p>
 <table class="table table-bordered table-striped table-responsive table-sm">
   <thead class="thead-dark">
     <tr>

@@ -29,7 +29,7 @@
       </label>
     </div>
     <hr>
-    <ticker-typeahead (selection)="setTicker($event)"></ticker-typeahead>
+    <ticker-typeahead [label]="labelSearch" (selection)="setTicker($event)"></ticker-typeahead>
     <div class="form-group">
       <label for="type">Script</label>    
       <input type="text" required minlength="2" readonly [(ngModel)]="txn.code" class="form-control" name="script" id="script" placeholder="NSE script code">    

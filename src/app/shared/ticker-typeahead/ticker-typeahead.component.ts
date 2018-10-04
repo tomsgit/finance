@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy, Input } from '@angular/core';
 import { Ticker } from 'app/ticker/ticker';
 import { TickerService } from 'app/ticker/ticker.service';
 import { Observable } from 'rxjs';
@@ -16,6 +16,7 @@ export class TickerTypeaheadComponent implements OnInit {
   private _query:String;
   private tickers:Ticker[];
   private _selection:Ticker;
+  @Input() label:String;
   @Output() selection:EventEmitter<Ticker>;
 
   constructor(private _tickerService:TickerService) {

@@ -36,7 +36,7 @@ export class TransactionDetailComponent implements OnInit {
   _date: NgbDateStruct;
   error:string;
   saving:boolean;
-
+  labelSearch:string="Search";
 
   constructor(private _txnService: TransactionService,private _dateUtil:DateUtil,private route: ActivatedRoute,private _router:Router) { 
 

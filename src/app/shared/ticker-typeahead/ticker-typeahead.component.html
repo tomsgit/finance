@@ -1,5 +1,5 @@
 <div class="form-group">
-  <label for="type">Search</label>    
+  <label for="type">{{label}}</label>    
   <input type="text" required minlength="3" [(ngModel)]="query" class="form-control" name="query" id="query" placeholder="NSE script code" 
     [ngbTypeahead]="search" (selectItem)="setTicker($event.item)" [resultFormatter]="formatter" [inputFormatter]="formatter">    
 </div>

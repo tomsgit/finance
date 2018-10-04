@@ -11,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 import { TxnWrapper } from '../txn-wrapper';
 import { Portfolio } from 'app/transaction/portfolio';
 import { PortfolioService } from 'app/transaction/portfolio.service';
+import { Ticker } from 'app/ticker/ticker';
 
 @Component({
   selector: 'transaction-list',
@@ -22,6 +23,7 @@ export class TransactionListComponent implements OnInit {
 
   title:string;
   transactions:TxnWrapper[];
+  allTransactions:TxnWrapper[];
   portfolioList:Portfolio[];
   TxnType=TxnType;
   folioId:string;
@@ -42,6 +44,7 @@ export class TransactionListComponent implements OnInit {
     this.title="Transaction List";
     this.folioId = this.route.snapshot.parent.params['folioId'];
     this.sortOrder=1;
+    
     this.getTransactions();
     this._portfolioService.getPortfolioList()
         .pipe(map(folioList => folioList.filter(folio => folio.id !== this.folioId)) )   
@@ -65,6 +68,7 @@ export class TransactionListComponent implements OnInit {
                             .subscribe(
                               result =>{
                                   this.transactions=result;
+                                  this.allTransactions=result;
                                   console.log('Got Values');
                               }
                             ),
@@ -134,5 +138,16 @@ export class TransactionListComponent implements OnInit {
     //console.log(this.sortOrder+' LEFT>'+l.txn.date+' RIGHT>'+r.txn.date+'o/p>'+o);
     //return o;
   }
+  setFilter(item:Ticker){
+    console.log('selected'+item);
+    this.filter=item;
+    this.transactions= this.allTransactions.filter(t=> t.txn.code.match(this.filter.code))
+  }
+  clearFilter(item:Ticker){
+    this.filter=null;
+    this.transactions=this.allTransactions;
+  }
+  filter: Ticker;
+  filterLabel:string="Filter";
 
 }
