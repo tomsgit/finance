@@ -141,7 +141,7 @@ export class TransactionListComponent implements OnInit {
   setFilter(item:Ticker){
     console.log('selected'+item);
     this.filter=item;
-    this.transactions= this.allTransactions.filter(t=> t.txn.code.match(this.filter.code))
+    this.transactions= this.allTransactions.filter(t=> t.txn.code === this.filter.code)
   }
   clearFilter(item:Ticker){
     this.filter=null;
