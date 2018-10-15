@@ -2,7 +2,7 @@
 <ticker-typeahead [label]="filterLabel" (selection)="setFilter($event)"></ticker-typeahead>
 
 <p *ngIf="filter">
-  <ngb-alert [type]="secondary" (close)="clearFilter(filter)">{{ filter.name }}</ngb-alert>
+  <ngb-alert [type]="secondary" (close)="clearFilter(filter)">{{ filter.name }} ({{quote.close}})</ngb-alert>
 </p>
 <table class="table table-bordered table-striped table-responsive table-sm">
   <thead class="thead-dark">
@@ -30,7 +30,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let wrpr of transactions">
+    <tr *ngFor="let wrpr of transactions" [ngClass]="{'table-success': ((quote && quote.close >0) && (wrpr.txn.price < quote.close)),'table-danger': ((quote && quote.close >0) && (wrpr.txn.price > quote.close))}">
       
       <th scope="row"><button type="button" routerLink="{{wrpr.docRef.id}}" routerLinkActive="active" class="btn btn-link">{{wrpr.txn.code}}</button></th>
       <td>{{wrpr.txn.name}}</td>

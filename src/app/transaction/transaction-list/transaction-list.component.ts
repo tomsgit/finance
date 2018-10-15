@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { Broker } from '../broker.enum';
 import { Exchange } from '../exchange.enum';
 import { TxnType } from '../txn-type.enum';
@@ -12,6 +12,8 @@ import { TxnWrapper } from '../txn-wrapper';
 import { Portfolio } from 'app/transaction/portfolio';
 import { PortfolioService } from 'app/transaction/portfolio.service';
 import { Ticker } from 'app/ticker/ticker';
+import { TickerService } from 'app/ticker/ticker.service';
+import { Quote } from 'app/ticker/quote/quote';
 
 @Component({
   selector: 'transaction-list',
@@ -32,7 +34,7 @@ export class TransactionListComponent implements OnInit {
   sortField:string;
   sortOrder:number;
 
-  constructor(private _txnService:TransactionService,private route: ActivatedRoute,private _portfolioService:PortfolioService) { }
+  constructor(private _tickerService: TickerService, private _txnService:TransactionService,private route: ActivatedRoute,private _portfolioService:PortfolioService,private cdr: ChangeDetectorRef) { }
   get copyTarget(){
     return this._copyTarget;
   }
@@ -138,14 +140,32 @@ export class TransactionListComponent implements OnInit {
     //console.log(this.sortOrder+' LEFT>'+l.txn.date+' RIGHT>'+r.txn.date+'o/p>'+o);
     //return o;
   }
+  quote:Quote;
   setFilter(item:Ticker){
     console.log('selected'+item);
     this.filter=item;
-    this.transactions= this.allTransactions.filter(t=> t.txn.code === this.filter.code)
+    this.transactions= this.allTransactions.filter(t=> t.txn.code === this.filter.code);
+    let q$=this._tickerService.getLatestQuote(this.filter.code);
+    q$.subscribe(
+        q =>{
+           
+            this.quote=q;
+            this.cdr.markForCheck();
+            console.log('quote'+this.quote.close);
+            
+        },
+        (error)=>{
+            console.error('error in quote>'+error.code +' : '+ error.message);
+        },
+        ()=>{
+          console.log('Completed the quote service');
+        }
+    );
   }
   clearFilter(item:Ticker){
     this.filter=null;
     this.transactions=this.allTransactions;
+    this.quote=null;
   }
   filter: Ticker;
   filterLabel:string="Filter";
