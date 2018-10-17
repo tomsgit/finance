@@ -35,15 +35,14 @@ export class PortfolioTrendsService {
              
               trend=action.payload.doc.data() as Trend;
               
-              //console.log('trend.date'+trend.date);
-              //console.log('trend.date instance'+(trend.date instanceof firestore.Timestamp));
+              
               if(trend.date instanceof firestore.Timestamp){
                 let ts:firestore.Timestamp=trend.date;
                 trend.date=new Date(ts.toDate());
                 console.log('trend.date (fs ts) converted to date'+trend.date);   
               }else{
                 trend.date=new Date(trend.date);
-                //console.log('trend.date converted to date'+trend.date);
+                
               }
                     
               return trend;
