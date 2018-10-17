@@ -24,6 +24,8 @@ import { TickerModule } from './ticker/ticker.module';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
+
 
 
 @NgModule({
@@ -44,7 +46,8 @@ import { SharedModule } from './shared/shared.module';
     FormsModule,
     SharedModule,
     CoreModule.forRoot(),  
-    AppRoutingModule
+    AppRoutingModule,
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
 
