@@ -5,12 +5,12 @@ import { LocalQuoteService } from 'app/ticker/quote/local/local-quote.service';
 import { AuthService } from 'app/core/auth/auth.service';
 import { AuthRouteGuardService } from 'app/core/auth/auth-route-guard.service';
 import { LoginRouteGuardService } from 'app/core/auth/login/login-route-guard.service';
-import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date-parser-formatter';
+//import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date-parser-formatter';
 import { NgbInDateParserFormatterService } from 'app/core/ngbootstrap/ngb-in-date-parser-formatter.service';
 import { DateUtil } from 'app/core/ngbootstrap/date-util';
 import { BatchLogService } from '../admin/batch-log.service';
 import { FormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [

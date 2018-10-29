@@ -2,12 +2,11 @@ import { Injectable } from '@angular/core';
 import { Ticker } from './ticker';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Observable ,  Observer } from 'rxjs';
-import {map} from 'rxjs/operators';
+import {map,  take } from 'rxjs/operators';
 import { Quote } from 'app/ticker/quote/quote';
 import { IQuoteService } from 'app/ticker/quote/i-quote-service';
 import { LocalQuoteService } from 'app/ticker/quote/local/local-quote.service';
 import { TickerWrapper } from 'app/ticker/ticker-wrapper';
-import { take } from 'rxjs/operators';
 
 
 //import { QuandlQuoteServiceService } from './quandl-quote-service.service';

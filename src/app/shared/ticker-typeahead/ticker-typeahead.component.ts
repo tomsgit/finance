@@ -2,8 +2,7 @@ import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy, Input
 import { Ticker } from 'app/ticker/ticker';
 import { TickerService } from 'app/ticker/ticker.service';
 import { Observable } from 'rxjs';
-import {map} from 'rxjs/operators';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import {map,  debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'ticker-typeahead',
