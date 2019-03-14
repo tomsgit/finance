@@ -10,7 +10,7 @@ export class Trend {
     deltapercent:number;
 
     date:Date;
-
+    realised:number;
     
     static toObject(from:Trend):any{
         let obj:any = JSON.parse(JSON.stringify(from));

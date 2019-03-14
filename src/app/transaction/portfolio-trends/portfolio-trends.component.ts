@@ -18,6 +18,7 @@ export class PortfolioTrendsComponent implements OnInit {
   chart_cost:number[];
   chart_value:number[];
   chart_profit:number[];
+  chart_realised:number[];
   chart_painted:boolean;
   @Input() folioId:string;
 
@@ -34,6 +35,7 @@ export class PortfolioTrendsComponent implements OnInit {
     this.chart_cost=new Array();
     this.chart_value=new Array();
     this.chart_profit=new Array();
+    this.chart_realised=new Array();
     var options = { year: 'numeric', month: 'short', day: 'numeric' };
     this._trendService.getTrends(this.folioId)
       .subscribe(
@@ -45,6 +47,7 @@ export class PortfolioTrendsComponent implements OnInit {
             this.chart_cost.push(+(trend.cost/100000).toFixed(2));
             this.chart_value.push(+(trend.value/100000).toFixed(2));
             this.chart_profit.push(+(trend.gain/1000).toFixed(2));
+            this.chart_realised.push(+(trend.realised/1000).toFixed(2));
           });
          if(this.chart){
           this.chart.update();
@@ -91,6 +94,14 @@ export class PortfolioTrendsComponent implements OnInit {
 				backgroundColor: 'blue',
 				fill: false,
 				data: this.chart_profit,
+				yAxisID: 'bottomline'
+      },
+      {
+				label: 'Realised',
+				borderColor: 'green',
+				backgroundColor: 'green',
+				fill: false,
+				data: this.chart_realised,
 				yAxisID: 'bottomline'
 			}]
 		}

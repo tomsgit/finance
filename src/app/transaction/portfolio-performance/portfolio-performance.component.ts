@@ -87,6 +87,7 @@ export class PortfolioPerformanceComponent implements OnInit {
 
     trend.gain=this.tgain;
     trend.gainpercent=this.tgainpercent;
+    trend.realised=this.trealised;
     let isTrendValid:boolean =false;
     let logTrendForToday:boolean =false;
     if(trend.cost >0 && trend.value>0){
