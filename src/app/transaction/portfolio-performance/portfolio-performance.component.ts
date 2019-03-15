@@ -37,8 +37,8 @@ export class PortfolioPerformanceComponent implements OnInit {
   copyTarget:string;
   snapshotError:string;
   targetList:Portfolio[];
-
-
+  hasError:boolean;
+  error:string;
   
   @ViewChild('chart') chart: ElementRef;
   @ViewChild('grid') grid: ElementRef;
@@ -59,17 +59,25 @@ export class PortfolioPerformanceComponent implements OnInit {
     this._nameWidthMax=20;
     this._nameWidth=this._nameWidthMin;
     this.isExpanded=false;
+    this.hasError=false;
     this.copyTarget="";       
   }
   
   ngOnInit() {
-    this.title="Portfolio Performance";
-    this.sortOrder=1;
-    this.folioId = this.route.snapshot.parent.params['folioId'];  
-    this.getPortfolioData();
-    //this.getTickerData();
-    this.loadSnapshotTargets();
-    this.waitAndLogTotals();
+    try{
+      this.title="Portfolio Performance";
+      this.sortOrder=1;
+      this.folioId = this.route.snapshot.parent.params['folioId'];  
+      this.getPortfolioData();
+      //this.getTickerData();
+      this.loadSnapshotTargets();
+      this.waitAndLogTotals();
+    }catch(e){
+      this.hasError=true;
+      this.error=e;
+      console.log(e);
+
+    }
     
   
   }
@@ -149,7 +157,13 @@ export class PortfolioPerformanceComponent implements OnInit {
                           this.sort('value');
                           
                         },
-                        err => console.error('error doing portfolio'+err.message),
+                        err => {
+
+                          this.hasError=true;
+                          this.error=err.message;
+                          this.cdr.markForCheck();
+                          console.error('error doing portfolio'+err.message);
+                        },
                         () => console.log('calc portfolio complete')
                       );
                         

@@ -1,8 +1,9 @@
 <page-title [title]="title"></page-title>
 
 
-
-
+<div *ngIf="hasError" class="alert alert-danger" role="alert">
+ {{error}}
+</div>
 <button id="grid" #grid type="button" (click)="showChart()" class="btn btn-dark float-right">View Chart</button>
 <table class="table table-bordered table-striped table-sm">
   <thead class="thead-dark">

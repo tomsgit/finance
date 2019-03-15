@@ -91,6 +91,7 @@ export class PortfolioPerf {
             //console.log(this.name+ '>pop>'+t.date+'shares>'+t.shares+'price>'+t.price);
             if(!t){
                 console.log('Unbalanced transactions for '+this.code);
+                throw new Error('Unbalanced transactions for '+this.code);
             }
             if(this.sharesToSettle < t.shares){
                 let ratioOfSplit = this.sharesToSettle/t.shares;
