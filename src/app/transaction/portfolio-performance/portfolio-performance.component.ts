@@ -40,8 +40,8 @@ export class PortfolioPerformanceComponent implements OnInit {
   hasError:boolean;
   error:string;
   
-  @ViewChild('chart') chart: ElementRef;
-  @ViewChild('grid') grid: ElementRef;
+  @ViewChild('chart', { static: true }) chart: ElementRef;
+  @ViewChild('grid', { static: true }) grid: ElementRef;
 
   showChart(){
     let el:HTMLElement = <HTMLElement>this.chart.nativeElement;
