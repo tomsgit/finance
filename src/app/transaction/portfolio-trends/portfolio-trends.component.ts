@@ -11,7 +11,9 @@ import { Chart,ChartData, ChartOptions } from 'chart.js';
 })
 export class PortfolioTrendsComponent implements OnInit {
 
-  constructor(private _trendService:PortfolioTrendsService,private route: ActivatedRoute) { }
+  constructor(private _trendService:PortfolioTrendsService,private route: ActivatedRoute) {
+    this._range=90;
+   }
   
   chart: Chart;
   chart_dates:string[];
@@ -20,6 +22,7 @@ export class PortfolioTrendsComponent implements OnInit {
   chart_profit:number[];
   chart_realised:number[];
   chart_painted:boolean;
+  _range:number;
   @Input() folioId:string;
 
   ngOnInit() {
@@ -28,6 +31,10 @@ export class PortfolioTrendsComponent implements OnInit {
     this.performanceLog();
   }
   
+  set range(r:number){
+    this._range=r;
+    this.ngOnInit();
+  }
 
   performanceLog(){
     this.chart_painted=false;
@@ -37,7 +44,7 @@ export class PortfolioTrendsComponent implements OnInit {
     this.chart_profit=new Array();
     this.chart_realised=new Array();
     var options = { year: 'numeric', month: 'short', day: 'numeric' };
-    this._trendService.getTrends(this.folioId)
+    this._trendService.getTrends(this.folioId,this._range)
       .subscribe(
         data => {
           data.forEach(trend => {

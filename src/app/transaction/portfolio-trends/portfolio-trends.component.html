@@ -1,3 +1,18 @@
-<div class="chart-container" style="height:20vh; width:90vw">
+
+<div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="range">
+    <label ngbButtonLabel [ngClass]="(_range==30)?'btn-primary':'btn-secondary'">
+      <input ngbButton type="radio" [value]="30"> Last Month
+    </label>
+    <label ngbButtonLabel [ngClass]="(_range==90)?'btn-primary':'btn-secondary'">
+      <input ngbButton type="radio" value="90"> Last Quarter
+    </label>
+    <label ngbButtonLabel [ngClass]="(_range==366)?'btn-primary':'btn-secondary'">
+      <input ngbButton type="radio" [value]="366"> Last Year
+    </label>
+    <label ngbButtonLabel [ngClass]="(_range==2000)?'btn-primary':'btn-secondary'">
+        <input ngbButton type="radio" [value]="2000"> Max
+    </label>
+  </div>
+  <div class="chart-container" style="height:20vh; width:90vw">
     <canvas id="canvas"></canvas>
 </div>

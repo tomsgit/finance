@@ -19,11 +19,14 @@ export class PortfolioTrendsService {
   private readonly collection_trends: string;
   
   
-  getTrends(porfolioId:string):Observable<Trend[]>{
+  getTrends(porfolioId:string, range:number):Observable<Trend[]>{
+    let since = new Date();
+    //let range=5;
+    since.setDate(since.getDate()-range);
     return this._portfolioService
         .getPortfolioRef(porfolioId)
         .collection(this.collection_trends,ref=>{
-          return ref.orderBy('date','desc').limit(100);
+          return ref.where('date','>=',since).orderBy('date','desc');
         })
         .snapshotChanges()
         .pipe(
