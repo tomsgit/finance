@@ -3,7 +3,7 @@ import { IQuoteService } from 'app/ticker/quote/i-quote-service';
 import { Observable,Observer } from 'rxjs';
 import {map} from 'rxjs/operators';
 import { Quote } from 'app/ticker/quote/quote';
-import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable()
 export class LocalQuoteService implements IQuoteService{

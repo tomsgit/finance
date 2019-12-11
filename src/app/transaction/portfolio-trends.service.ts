@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { PortfolioService } from 'app/transaction/portfolio.service';
 import { Observable } from 'rxjs';
 import { Trend } from 'app/transaction/trend';

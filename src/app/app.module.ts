@@ -7,10 +7,10 @@ import { AppComponent } from './app.component';
 import { TransactionModule } from './transaction/transaction.module';
 import {NgbModule, NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
 
-import { AngularFireModule } from 'angularfire2';
+import { AngularFireModule } from '@angular/fire';
 //import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { AngularFireAuthModule } from 'angularfire2/auth';
-import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from './../environments/environment';
 
 import { FormsModule } from '@angular/forms';
@@ -34,7 +34,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     LoginComponent
   ],
   imports: [
-    NgbModule.forRoot(),
+    NgbModule,
     BrowserModule,
     HttpClientModule,
     //TransactionModule,

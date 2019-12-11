@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Portfolio } from './portfolio';
 import { Observable } from 'rxjs';
 import {map} from 'rxjs/operators';

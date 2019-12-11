@@ -5,7 +5,7 @@ import { Txn } from './txn';
 import { Broker } from './broker.enum';
 import { Exchange } from './exchange.enum';
 import { TxnType } from './txn-type.enum';
-import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { PortfolioService } from './portfolio.service';
 import { firestore } from 'firebase/app';
 import { TxnWrapper } from './txn-wrapper';
