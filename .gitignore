@@ -1,6 +1,7 @@
 node_modules/
 dist/
 .firebaserc
+src/environments/environment.prod.ts
 src/environments/environment.ts
 *.cache
-src/environments/environment.prod.ts
+
