@@ -6,9 +6,9 @@ import { TransactionModule } from './transaction/transaction.module';
 
 const routes:Routes = [
   {path:'login',component: LoginComponent,canActivate:[LoginRouteGuardService]},          
-  {path: 'portfolio',loadChildren: 'app/transaction/transaction.module#TransactionModule'},
-  {path: 'ticker',loadChildren: 'app/ticker/ticker.module#TickerModule'},
-  {path: 'admin',loadChildren: 'app/admin/admin.module#AdminModule'},
+  {path: 'portfolio',loadChildren: () => import('app/transaction/transaction.module').then(m => m.TransactionModule)},
+  {path: 'ticker',loadChildren: () => import('app/ticker/ticker.module').then(m => m.TickerModule)},
+  {path: 'admin',loadChildren: () => import('app/admin/admin.module').then(m => m.AdminModule)},
   {path:'',redirectTo:'portfolio', pathMatch:'full'},
   {path:'**',redirectTo:'portfolio', pathMatch:'full'}
 ]
