@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { TickerTypeaheadComponent } from './ticker-typeahead.component';
 
@@ -6,7 +6,7 @@ describe('TickerTypeaheadComponent', () => {
   let component: TickerTypeaheadComponent;
   let fixture: ComponentFixture<TickerTypeaheadComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ TickerTypeaheadComponent ]
     })
