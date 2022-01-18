@@ -46,11 +46,15 @@ export class PortfolioService {
               t.shares=item.shares;
               t.type=TxnType.BUY;
               t.value=item.currentValue;
-              txns.push(t);
-              this._txnService.batchSave(targetFolio,txns);
+              if(t.shares>0){
+                txns.push(t);
+              }
+              
+              
 
             }
           );
+          this._txnService.batchSave(targetFolio,txns);
         }
       }
     );
