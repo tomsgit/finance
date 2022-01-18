@@ -5,9 +5,9 @@ import { Txn } from './txn';
 import { Broker } from './broker.enum';
 import { Exchange } from './exchange.enum';
 import { TxnType } from './txn-type.enum';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { PortfolioService } from './portfolio.service';
-import { firestore } from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import { TxnWrapper } from './txn-wrapper';
 
 @Injectable()
@@ -78,7 +78,7 @@ export class TransactionService {
                 .snapshotChanges()
                 .pipe(
                   map(actions => {
-
+                    
                     return actions.map(action => {
                       
                       let wrapper:TxnWrapper = new TxnWrapper();
@@ -107,8 +107,8 @@ export class TransactionService {
     
     
  
-    if(txn.date instanceof firestore.Timestamp){
-      let ts:firestore.Timestamp=txn.date;
+    if(txn.date instanceof firebase.firestore.Timestamp){
+      let ts:firebase.firestore.Timestamp=txn.date;
       txn.date=ts.toDate();
       //console.log('computeT>>>' +txn.date.constructor.name);
     }else{

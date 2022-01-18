@@ -3,7 +3,7 @@ import { Broker } from '../broker.enum';
 import { Exchange } from '../exchange.enum';
 import { TxnType } from '../txn-type.enum';
 import { TransactionService } from '../transaction.service';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Observable } from 'rxjs';
 import {map} from 'rxjs/operators';
 import { Txn } from '../txn';

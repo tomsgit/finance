@@ -12,7 +12,7 @@ import { tap } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
 import { TxnWrapper } from '../txn-wrapper';
 import { Ticker } from 'app/ticker/ticker';
-import { firestore } from 'firebase';
+import  firebase  from 'firebase/compat/app';
 
 
 @Component({
@@ -66,8 +66,8 @@ export class TransactionDetailComponent implements OnInit {
   compute(t:Txn):void{
     
    
-    if(t.date instanceof firestore.Timestamp){
-      let ts:firestore.Timestamp=t.date;
+    if(t.date instanceof firebase.firestore.Timestamp){
+      let ts:firebase.firestore.Timestamp=t.date;
       t.date=ts.toDate();
       //console.log('computeT>>>' +txn.date.constructor.name);
     }else{

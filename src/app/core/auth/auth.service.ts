@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { User as FBUser } from '@firebase/auth-types';
 import { Observable } from 'rxjs';
 import {map} from 'rxjs/operators';
@@ -39,7 +39,8 @@ export class AuthService {
   }
   login(email:string, password:string):Promise<any>{
     console.log('calling firebase:'+email+'||'+password);
-    return this._firebaseAuth.auth.signInWithEmailAndPassword (email,password)
+    
+    return this._firebaseAuth.signInWithEmailAndPassword (email,password)
         .then((result)=>{
           console.log('Processed' + result);
          
@@ -50,6 +51,6 @@ export class AuthService {
         });
   }
   logout() {
-    this._firebaseAuth.auth.signOut();
+    this._firebaseAuth.signOut();
   }
 }

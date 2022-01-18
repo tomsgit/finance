@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { PortfolioService } from 'app/transaction/portfolio.service';
 import { Observable } from 'rxjs';
 import { Trend } from 'app/transaction/trend';
 import { map } from 'rxjs/operators';
-import { firestore } from 'firebase';
+import firebase from 'firebase/compat/app';
 
 
 @Injectable({
@@ -39,8 +39,8 @@ export class PortfolioTrendsService {
               trend=action.payload.doc.data() as Trend;
               
               
-              if(trend.date instanceof firestore.Timestamp){
-                let ts:firestore.Timestamp=trend.date;
+              if(trend.date instanceof firebase.firestore.Timestamp){
+                let ts:firebase.firestore.Timestamp=trend.date;
                 trend.date=new Date(ts.toDate());
                 console.log('trend.date (fs ts) converted to date'+trend.date);   
               }else{

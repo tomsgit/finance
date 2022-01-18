@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Ticker } from './ticker';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable ,  Observer } from 'rxjs';
 import {map,  take } from 'rxjs/operators';
 import { Quote } from 'app/ticker/quote/quote';

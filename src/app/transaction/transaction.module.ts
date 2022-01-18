@@ -6,10 +6,10 @@ import { TransactionService } from './transaction.service';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { AngularFireModule } from '@angular/fire';
+import { AngularFireModule } from '@angular/fire/compat';
 //import { AngularFireDatabaseModule } from 'angularfire2/database';
 //import { AngularFireAuthModule } from 'angularfire2/auth';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { environment } from '../../environments/environment';
 import { FormsModule } from '@angular/forms';
 import { PortfolioContainerRootComponent } from './portfolio-container-root/portfolio-container-root.component';

@@ -5,7 +5,7 @@ import { AuthService } from 'app/core/auth/auth.service';
 import { Observable } from 'rxjs';
 import { User } from 'app/core/auth/user';
 import { Router } from '@angular/router';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Component({
   selector: 'app-auth-nav-bar',

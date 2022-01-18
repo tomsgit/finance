@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BatchLog } from './batch-log';
 import { Observable } from 'rxjs';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable()
 export class BatchLogService {
